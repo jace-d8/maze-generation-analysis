@@ -1,36 +1,25 @@
-# First GitHub Commit!
+import os
+
 import pygame
-import maze
+from sys import exit
+import maze as m
 
 pygame.init()
 
-screen = pygame.display.set_mode((0, 0), pygame.RESIZABLE)
-run = True
-node = pygame.Rect(300,250,50,50)
+screen = pygame.display.set_mode((0, 0), pygame.RESIZABLE)  # Screen size is resizeable so it fits on any display
+pygame.display.set_caption("Maze Generator")  # Naming the window to fit my game
+clock = pygame.time.Clock()  # A clock to keep an eye on framerate
+cell = m.Cell(50, 50, 50)
 
+while True:
 
-while run:
-
-    pygame.draw.rect(screen, (255, 0, 0), node)
+    screen.fill((255, 255, 255))
+    cell.draw(screen)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            run = False
+            pygame.quit()
+            exit()
 
     pygame.display.update()
-
-
-pygame.quit()
-
-# idea
-"""
-The Maze -
-The maze will be a graph of set vertices, the walls will be the 
-edges connecting the vertices, the randomization of edges will be done via Kruskals
-Algorithm(kosarju's algor and prims are also candidates but i forgot how they work)
-Solving -
-Should be the easier part of the program; will use recursion or a stack and store each path taken
-in an array to display later
-Graphics - 
-The hard part
-"""
+    clock.tick(60)  # the framerate ceiling is 60fps
