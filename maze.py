@@ -1,5 +1,6 @@
 import pygame
 import constants as c
+import random
 
 
 class Cell:
@@ -11,7 +12,10 @@ class Cell:
 
     def draw(self, screen):
         # Draw the cell rectangle
-        pygame.draw.rect(screen, c.WHITE, (self.x, self.y, self.size, self.size))
+        if not self.visited:
+            pygame.draw.rect(screen, c.WHITE, (self.x, self.y, self.size, self.size))
+        else:
+            pygame.draw.rect(screen, c.RED, (self.x, self.y, self.size, self.size))
         # Draw the cell borders
         pygame.draw.line(screen, c.BLACK, (self.x, self.y),
                          (self.x + self.size, self.y))  # top
@@ -27,8 +31,10 @@ class Maze:
     def __init__(self, cols, rows):
         self.maze = [[Cell(i * c.SIZE, j * c.SIZE, False) for j in range(rows)] for i in range(cols)]
 
-    def generate_maze(self, node):
-        print("todo")
+    def generate_maze(self):
+        x = random.randint(0, c.COLS)
+        y = random.randint(0, c.ROWS)
+        self.gen_maze_helper(x, y)
         """
         lets use recursion!
         choose random cell
@@ -36,6 +42,16 @@ class Maze:
         do this until there is no direction that hasn't been visited
         by default this will climb back up the class stack until we are back at the starting cell!
         """
+
+    def gen_maze_helper(self, x, y):
+
+        if x + 1 > c.COLS or y + 1 > c.ROWS or x < 0 or y < 0 or self.maze[x][y].visited:
+            return False
+        else:
+            self.maze[x][y].visited = True
+
+        if self.gen_maze_helper(x + 1, y) or self.gen_maze_helper(x - 1, y): # or self.gen_maze_helper(x, y + 1) or self.gen_maze_helper(x, y - 1)):
+            print("reverse")
 
     def draw_maze(self, screen, cols, rows, done):
         for i in range(cols):
