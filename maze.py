@@ -49,24 +49,33 @@ class Maze:
             return False
         else:
             self.maze[x][y].visited = True
-            self.draw_maze(c.SCREEN, c.COLS, c.ROWS, False)
-            pygame.display.flip()
-
+            # self.draw_maze(c.SCREEN, c.COLS, c.ROWS, False) # temp
+            # pygame.display.update() # temp
+        while True:
+            count = 0
             direction = [
-                self.gen_maze_helper(x + 1, y),
-                self.gen_maze_helper(x - 1, y),
-                self.gen_maze_helper(x, y + 1),
-                self.gen_maze_helper(x, y - 1)
+                (x + 1, y),
+                (x - 1, y),
+                (x, y + 1),
+                (x, y - 1)
             ]
             opt = random.choice(direction)
+            if self.gen_maze_helper(*opt):
+                break
+            elif all(not self.gen_maze_helper(*d) for d in direction): #chatGPT for syntax
+                break
+
+        self.gen_maze_helper(*opt)
+    # this line is after recursion and will be the backtracking
 
     def draw_maze(self, screen, cols, rows, done):
         for i in range(cols):
             for j in range(rows):
                 self.maze[i][j].draw(screen)
-                if not done:
-                    pygame.time.delay(25)
-                    pygame.display.update()
+            if not done:
+                pygame.time.delay(25)
+                pygame.display.update()
+
 
         # this is for the original "animation" - it can be done every cell but gets too slow if there are 100+ cells
 
