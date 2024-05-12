@@ -49,17 +49,25 @@ class Maze:
             return False
         else:
             self.maze[x][y].visited = True
+            self.draw_maze(c.SCREEN, c.COLS, c.ROWS, False)
+            pygame.display.flip()
 
-        if self.gen_maze_helper(x + 1, y) or self.gen_maze_helper(x - 1, y): # or self.gen_maze_helper(x, y + 1) or self.gen_maze_helper(x, y - 1)):
-            print("reverse")
+            direction = [
+                self.gen_maze_helper(x + 1, y),
+                self.gen_maze_helper(x - 1, y),
+                self.gen_maze_helper(x, y + 1),
+                self.gen_maze_helper(x, y - 1)
+            ]
+            opt = random.choice(direction)
 
     def draw_maze(self, screen, cols, rows, done):
         for i in range(cols):
             for j in range(rows):
                 self.maze[i][j].draw(screen)
-            if not done:
-                pygame.time.delay(25)
-                pygame.display.update()
+                if not done:
+                    pygame.time.delay(25)
+                    pygame.display.update()
+
         # this is for the original "animation" - it can be done every cell but gets too slow if there are 100+ cells
 
         """
@@ -73,9 +81,3 @@ class Maze:
         Graphics - 
         The hard part
         """
-
-
-"""
-        self.maze = [[Cell() for _ in range(cols)] for _ in range(rows)]
-
-"""

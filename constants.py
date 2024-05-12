@@ -1,6 +1,6 @@
 import pygame
 
-SIZE = 20
+SIZE = 40
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
