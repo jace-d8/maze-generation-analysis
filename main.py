@@ -9,14 +9,14 @@ sys.setrecursionlimit(8000)
 # screen = pygame.display.set_mode((0, 0), pygame.RESIZABLE)  # Screen size is resizeable, so it fits on any display
 pygame.display.set_caption("Maze Generator")  # Naming the window to fit my game
 clock = pygame.time.Clock()  # A clock to keep an eye on framerate
-maze = m.Maze(c.COLS, c.ROWS)
+maze = m.Maze()
 
 done = False
 while True:
 
     c.SCREEN.fill(c.WHITE)
     pygame.event.pump()
-    maze.draw_maze(c.SCREEN, c.COLS, c.ROWS, done)
+    maze.draw_maze(c.SCREEN, done)
     done = True
 
     for event in pygame.event.get():
@@ -26,6 +26,7 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 maze.generate_maze()
+                maze.solve_maze(0, 0)
 
     # maze.draw_maze(c.SCREEN, c.COLS, c.ROWS, done)
     clock.tick(60)  # the framerate ceiling is 60fps
