@@ -83,8 +83,12 @@ class Maze:
         for i in range(c.COLS):
             for j in range(c.ROWS):
                 self.maze[i][j].draw()
-            # if not done: # will slow down generation if need be
-            # pygame.time.delay(1)
+            #pygame.time.delay(1)
+
+    def reset_maze(self):
+        for i in range(c.COLS):
+            for j in range(c.ROWS):
+                self.maze[i][j].color = c.WHITE
 
     def solve_maze(self, x, y, end_x, end_y):
         current_cell = self.maze[x][y]  # for simplification
@@ -107,6 +111,9 @@ class Maze:
                 new_x, new_y = new_direction_coords
                 if not wall and self.maze[new_x][new_y].color != c.RED:  # if wall is not present go that way
                     if self.solve_maze(*new_direction_coords, end_x, end_y):  # pass in new direction to function
+                        if current_cell.color == c.RED:
+                            current_cell.color = c.GREEN
+                            self.maze[end_x][end_y].color = c.GREEN
                         return True  # This will send "True" up the call stack and end the recursion
 
             current_cell.color = c.LIGHT_RED  # we've hit a dead end and must backtrack, turn this cell white
