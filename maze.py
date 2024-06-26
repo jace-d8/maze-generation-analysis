@@ -1,4 +1,6 @@
 import pygame
+import pygame.rect
+
 import constants as c
 import random
 
@@ -38,11 +40,11 @@ class Maze:
     def __init__(self):
         self.maze = [[Cell(i * c.SIZE, j * c.SIZE) for j in range(c.ROWS)] for i in range(c.COLS)]
 
-    def generate_maze(self):
-        self.gen_maze_helper(random.randint(0, c.COLS - 1), random.randint(0, c.ROWS - 1))
+    def generate_maze(self, maze_gen_box):
+        self.gen_maze_helper(random.randint(0, c.COLS - 1), random.randint(0, c.ROWS - 1), maze_gen_box)
         # Pass in a random starting point for the maze to begin generation
 
-    def gen_maze_helper(self, x, y):
+    def gen_maze_helper(self, x, y, maze_gen_box):
 
         # check validity of current cell - if invalid return false
         if x + 1 > c.COLS or y + 1 > c.ROWS or x < 0 or y < 0 or self.maze[x][y].generated:
@@ -51,8 +53,9 @@ class Maze:
             self.maze[x][y].generate()
 
             # draw maze for visuals
-            self.draw_maze()  # temp
-            pygame.display.update()  # temp
+            if maze_gen_box:
+                self.draw_maze()  # temp
+                pygame.display.update()  # temp
 
         compass = [  # contains direction coords and label
             ((x, y - 1), "up"),
@@ -76,23 +79,24 @@ class Maze:
                     self.maze[x][y].walls["left"] = False
                     self.maze[newX][newY].walls["right"] = False
 
-            self.gen_maze_helper(newX, newY)  # recursive step. If backtracking will occur if-
+            self.gen_maze_helper(newX, newY, maze_gen_box)  # recursive step. If backtracking will occur if-
             # there are more directions available in the loop
 
     def draw_maze(self):
         for i in range(c.COLS):
             for j in range(c.ROWS):
                 self.maze[i][j].draw()
-            #pygame.time.delay(1)
+            pygame.time.delay(c.DELAY)
 
     def reset_maze(self):
         for i in range(c.COLS):
             for j in range(c.ROWS):
                 self.maze[i][j].color = c.WHITE
 
-    def solve_maze(self, x, y, end_x, end_y):
+    def solve_maze(self, x, y, end_x, end_y, highlight_backtracking):
         current_cell = self.maze[x][y]  # for simplification
         current_cell.color = c.RED  # mark the cell visited by default
+
         self.draw_maze()  # temp
         pygame.display.update()  # temp
 
@@ -110,14 +114,27 @@ class Maze:
             for wall, new_direction_coords in random.sample(compass, len(compass)):
                 new_x, new_y = new_direction_coords
                 if not wall and self.maze[new_x][new_y].color != c.RED:  # if wall is not present go that way
-                    if self.solve_maze(*new_direction_coords, end_x, end_y):  # pass in new direction to function
+                    if self.solve_maze(*new_direction_coords, end_x, end_y, highlight_backtracking):
                         if current_cell.color == c.RED:
                             current_cell.color = c.GREEN
                             self.maze[end_x][end_y].color = c.GREEN
                         return True  # This will send "True" up the call stack and end the recursion
 
-            current_cell.color = c.LIGHT_RED  # we've hit a dead end and must backtrack, turn this cell white
+            current_cell.color = c.LIGHT_RED if highlight_backtracking else c.WHITE
+            # we've hit a dead end and must backtrack, turn this cell white
             self.draw_maze()  # temp
             pygame.display.update()  # temp
             return False
         # if we return to start and all surrounding cells have been hit , maze has no exit (which should never happen)
+
+
+class Button:
+    def __init__(self, x, y, w, h):
+        self.x = x
+        self.y = y
+        self.width = w
+        self.height = h
+        self.rect = pygame.Rect(x, y, w, h)
+
+    def draw(self):
+        pygame.draw.rect(c.SCREEN, c.WHITE, (self.x, self.y, self.width, self.height))
