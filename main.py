@@ -1,6 +1,8 @@
 import sys
 import pygame
 import maze as m
+from maze_controls import Button
+from wrapper import Wrapper
 import constants as c
 from sys import exit
 
@@ -11,17 +13,17 @@ def main():
     pygame.display.set_caption("Maze Generator")
 
     maze = m.Maze()
-    gen_button = m.Button(480, 600, 200, 50)
-    maze_gen_box = m.Button(260, 300, 40, 40)
-    backtrack_box = m.Button(260, 350, 40, 40)
-    size_slider = m.Button(360, 540, 440, 40)
+    gen_button = Button(480, 600, 200, 50)
+    maze_gen_box = Button(260, 300, 40, 40)
+    backtrack_box = Button(260, 350, 40, 40)
+    size_slider = Button(360, 540, 440, 40)
     stage = 1
     coordinates_clicked = []
     generated = is_delay = False
     highlight_backtracking = watch_generation = watch_path = True
 
     while True:
-        c.SCREEN.fill(c.WHITE)
+        Wrapper.SCREEN.fill(c.WHITE)
         maze.draw_maze()
 
         if not generated:
@@ -36,27 +38,29 @@ def main():
                 exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
 
+                # replace with is_pressed function
                 if maze_gen_box.rect.collidepoint(pygame.mouse.get_pos()) and stage == 1:
                     watch_generation = not watch_generation
 
+                # replace with is_pressed function
                 if backtrack_box.rect.collidepoint(pygame.mouse.get_pos()) and stage == 1:
                     highlight_backtracking = not highlight_backtracking
 
+                # replace with is_pressed function
                 if gen_button.rect.collidepoint(pygame.mouse.get_pos()) and stage == 1:
                     maze.generate_maze(watch_generation)
-                    maze.solve_maze(0, 0, c.COLS - 1, c.ROWS - 1, highlight_backtracking)
+                    maze.solve_maze(0, 0, Wrapper.COLS - 1, Wrapper.ROWS - 1, highlight_backtracking)
                     stage = 2
                     generated = True
                 elif event.type == pygame.MOUSEBUTTONDOWN and stage == 2:
                     maze.reset_maze()
-                    x, y = (pos // c.SIZE for pos in pygame.mouse.get_pos())
+                    x, y = (pos // Wrapper.SIZE for pos in pygame.mouse.get_pos())
                     # pos is a tuple(x,y), pos is divided and floored
                     maze.maze[x][y].color = c.LIGHT_RED
                     coordinates_clicked.append((x, y))
                     if len(coordinates_clicked) == 2:
                         maze.solve_maze(*coordinates_clicked[0], *coordinates_clicked[1])
                         coordinates_clicked.clear()
-
         pygame.display.update()
 
 

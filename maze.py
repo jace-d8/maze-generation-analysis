@@ -1,60 +1,30 @@
 import pygame
 import pygame.rect
+from cell import Cell
+from wrapper import Wrapper
 import constants as c
 import random
 
 
-class Cell:
-    def __init__(self, x, y):  # each cell will need coords to where they are being stored
-        self.x = x
-        self.y = y
-        self.generated = False
-        self.color = c.BLACK
-        self.size = c.SIZE
-        self.walls = {"top": True, "right": True, "bottom": True, "left": True}
-
-    def generate(self):
-        self.generated = True
-        self.color = c.WHITE
-
-    def draw(self):
-        # Draw the cell rectangle
-        pygame.draw.rect(c.SCREEN, self.color, (self.x, self.y, self.size, self.size))
-        wall_color = c.BLACK if self.generated else c.WHITE
-        # Draw the cell borders; if maze path impedes the cell from certain direction, that direction will not be drawn
-
-        if self.walls["top"]:
-            pygame.draw.line(c.SCREEN, wall_color, (self.x, self.y), (self.x + self.size, self.y), c.WALL_WIDTH)
-        if self.walls["right"]:
-            pygame.draw.line(c.SCREEN, wall_color, (self.x + self.size, self.y),
-                             (self.x + self.size, self.y + self.size), c.WALL_WIDTH)
-        if self.walls["bottom"]:
-            pygame.draw.line(c.SCREEN, wall_color, (self.x, self.y + self.size),
-                             (self.x + self.size, self.y + self.size), c.WALL_WIDTH)
-        if self.walls["left"]:
-            pygame.draw.line(c.SCREEN, wall_color, (self.x, self.y), (self.x, self.y + self.size), c.WALL_WIDTH)
-
-
 class Maze:
     def __init__(self):
-        self.maze = [[Cell(i * c.SIZE, j * c.SIZE) for j in range(c.ROWS)] for i in range(c.COLS)]
+        self.maze = [[Cell(i * Wrapper.SIZE, j * Wrapper.SIZE) for j in range(Wrapper.ROWS)] for i in
+                     range(Wrapper.COLS)]
 
     def generate_maze(self, maze_gen_box):
-        self.gen_maze_helper(random.randint(0, c.COLS - 1), random.randint(0, c.ROWS - 1), maze_gen_box)
+        self.gen_maze_helper(random.randint(0, Wrapper.COLS - 1), random.randint(0, Wrapper.ROWS - 1), maze_gen_box)
         # Pass in a random starting point for the maze to begin generation
 
     def gen_maze_helper(self, x, y, maze_gen_box):
-
         # check validity of current cell - if invalid return false
-        if x + 1 > c.COLS or y + 1 > c.ROWS or x < 0 or y < 0 or self.maze[x][y].generated:
+        if x + 1 > Wrapper.COLS or y + 1 > Wrapper.ROWS or x < 0 or y < 0 or self.maze[x][y].generated:
             return
         else:  # else this cell is valid can be updated to visited
             self.maze[x][y].generate()
 
-            # draw maze for visuals
             if maze_gen_box:
-                self.draw_maze()  # temp
-                pygame.display.update()  # temp
+                self.draw_maze()
+                pygame.display.update()
 
         compass = [  # contains direction coords and label
             ((x, y - 1), "up"),
@@ -62,9 +32,13 @@ class Maze:
             ((x + 1, y), "right"),
             ((x - 1, y), "left")
         ]
+
+        self.gen_direction(compass, x, y, maze_gen_box)
+
+    def gen_direction(self, compass, x, y, maze_gen_box):
         # choose random direction, if the direction is invalid, remove it and try again
         for (newX, newY), direction in random.sample(compass, len(compass)):
-            if 0 <= newX < c.COLS and 0 <= newY < c.ROWS and not self.maze[newX][newY].generated:
+            if 0 <= newX < Wrapper.COLS and 0 <= newY < Wrapper.ROWS and not self.maze[newX][newY].generated:
                 if direction == "up":
                     self.maze[x][y].walls["top"] = False
                     self.maze[newX][newY].walls["bottom"] = False
@@ -82,14 +56,14 @@ class Maze:
             # there are more directions available in the loop
 
     def draw_maze(self):
-        for i in range(c.COLS):
-            for j in range(c.ROWS):
+        for i in range(Wrapper.COLS):
+            for j in range(Wrapper.ROWS):
                 self.maze[i][j].draw()
-            #pygame.time.delay(c.DELAY)
+            # pygame.time.delay(c.DELAY)
 
     def reset_maze(self):
-        for i in range(c.COLS):
-            for j in range(c.ROWS):
+        for i in range(Wrapper.COLS):
+            for j in range(Wrapper.ROWS):
                 self.maze[i][j].color = c.WHITE
 
     def solve_maze(self, x, y, end_x, end_y, highlight_backtracking):
@@ -121,19 +95,7 @@ class Maze:
 
             current_cell.color = c.LIGHT_RED if highlight_backtracking else c.WHITE
             # we've hit a dead end and must backtrack, turn this cell white
-            self.draw_maze()  # temp
-            pygame.display.update()  # temp
+            self.draw_maze()
+            pygame.display.update()
             return False
         # if we return to start and all surrounding cells have been hit , maze has no exit (which should never happen)
-
-
-class Button:
-    def __init__(self, x, y, w, h):
-        self.x = x
-        self.y = y
-        self.width = w
-        self.height = h
-        self.rect = pygame.Rect(x, y, w, h)
-
-    def draw(self):
-        pygame.draw.rect(c.SCREEN, c.WHITE, (self.x, self.y, self.width, self.height))
