@@ -1,6 +1,5 @@
 import pygame
 import pygame.rect
-
 import constants as c
 import random
 
@@ -86,7 +85,7 @@ class Maze:
         for i in range(c.COLS):
             for j in range(c.ROWS):
                 self.maze[i][j].draw()
-            pygame.time.delay(c.DELAY)
+            #pygame.time.delay(c.DELAY)
 
     def reset_maze(self):
         for i in range(c.COLS):
