@@ -11,6 +11,8 @@ class Game:
         self.gen_button = Button(480, 600, 200, 50, "Generate", c.GREEN, c.RED)
         self.maze_gen_box = Button(260, 300, 40, 40, "A", c.GREEN, c.RED)
         self.backtrack_box = Button(260, 350, 40, 40, "B", c.GREEN, c.RED)
+        self.path_gen_box = Button(260, 400, 40, 40, "C", c.GREEN, c.RED)
+
         self.stage = 1
         self.coordinates_clicked = []
         self.generated = self.is_delay = False
@@ -44,6 +46,11 @@ class Game:
                 self.backtrack_box.is_checked = not self.backtrack_box.is_checked
                 self.backtrack_box.color = c.LIGHT_RED if self.backtrack_box.is_checked else c.GREEN
                 self.highlight_backtracking = not self.highlight_backtracking
+            if self.path_gen_box.is_clicked(event):
+                self.path_gen_box.is_checked = not self.path_gen_box.is_checked
+                self.path_gen_box.color = c.LIGHT_RED if self.path_gen_box.is_checked else c.GREEN
+                self.watch_path = not self.watch_path
+        # OPTIMIZE LATER ^^^
 
     def execute_generation(self, event, maze):
 
@@ -66,4 +73,5 @@ class Game:
         self.gen_button.draw()
         self.backtrack_box.draw()
         self.maze_gen_box.draw()
+        self.path_gen_box.draw()
         # size_slider.draw()
