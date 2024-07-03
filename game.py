@@ -56,7 +56,7 @@ class Game:
 
         if self.gen_button.is_clicked(event) and self.stage == 1:
             maze.generate_maze(self.watch_generation)
-            maze.solve_maze(0, 0, App.COLS - 1, App.ROWS - 1, self.highlight_backtracking)
+            maze.solve_maze(0, 0, App.COLS - 1, App.ROWS - 1, self.highlight_backtracking, self.watch_path)
             self.stage = 2
             self.generated = True
         elif event.type == pygame.MOUSEBUTTONDOWN and self.stage == 2:
@@ -66,7 +66,7 @@ class Game:
             maze.maze[x][y].color = c.LIGHT_RED
             self.coordinates_clicked.append((x, y))
             if len(self.coordinates_clicked) == 2:
-                maze.solve_maze(*self.coordinates_clicked[0], *self.coordinates_clicked[1], self.highlight_backtracking)
+                maze.solve_maze(*self.coordinates_clicked[0], *self.coordinates_clicked[1], self.highlight_backtracking, self.watch_path)
                 self.coordinates_clicked.clear()
 
     def draw_buttons(self):

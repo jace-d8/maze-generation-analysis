@@ -65,12 +65,13 @@ class Maze:
             for j in range(App.ROWS):
                 self.maze[i][j].color = c.WHITE
 
-    def solve_maze(self, x, y, end_x, end_y, highlight_backtracking):
+    def solve_maze(self, x, y, end_x, end_y, highlight_backtracking, watch_path):
         current_cell = self.maze[x][y]  # for simplification
         current_cell.color = c.RED  # mark the cell visited by default
 
-        self.draw_maze()  # temp
-        pygame.display.update()  # temp
+        if watch_path:
+            self.draw_maze()
+            pygame.display.update()
 
         compass = [  # the cell walls and the direction needed to move to next cell in said direction
             (current_cell.walls["top"], (x, y - 1)),
@@ -86,7 +87,7 @@ class Maze:
             for wall, new_direction_coords in random.sample(compass, len(compass)):
                 new_x, new_y = new_direction_coords
                 if not wall and self.maze[new_x][new_y].color != c.RED:  # if wall is not present go that way
-                    if self.solve_maze(*new_direction_coords, end_x, end_y, highlight_backtracking):
+                    if self.solve_maze(*new_direction_coords, end_x, end_y, highlight_backtracking, watch_path):
                         if current_cell.color == c.RED:
                             current_cell.color = c.GREEN
                             self.maze[end_x][end_y].color = c.GREEN
@@ -94,7 +95,8 @@ class Maze:
 
             current_cell.color = c.LIGHT_RED if highlight_backtracking else c.WHITE
             # we've hit a dead end and must backtrack, turn this cell white
-            self.draw_maze()
-            pygame.display.update()
+            if watch_path:
+                self.draw_maze()
+                pygame.display.update()
             return False
         # if we return to start and all surrounding cells have been hit , maze has no exit (which should never happen)
