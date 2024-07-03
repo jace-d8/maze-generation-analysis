@@ -13,10 +13,10 @@ def main():
     pygame.display.set_caption("Maze Generator")
 
     maze = m.Maze()
-    gen_button = Button(480, 600, 200, 50)
-    maze_gen_box = Button(260, 300, 40, 40)
-    backtrack_box = Button(260, 350, 40, 40)
-    size_slider = Button(360, 540, 440, 40)
+    gen_button = Button(480, 600, 200, 50, "hi", c.GREEN, c.RED)
+    maze_gen_box = Button(260, 300, 40, 40, "hi", c.GREEN, c.RED)
+    backtrack_box = Button(260, 350, 40, 40, "hi", c.GREEN, c.RED)
+    # size_slider = Button(360, 540, 440, 40, "hi", c.GREEN, c.RED)
     stage = 1
     coordinates_clicked = []
     generated = is_delay = False
@@ -37,17 +37,16 @@ def main():
                 pygame.quit()
                 exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
+                if stage == 1:
+                    if maze_gen_box.is_clicked(event):
+                        maze_gen_box.color = c.LIGHT_RED
+                        watch_generation = not watch_generation
+                    if backtrack_box.is_clicked(event):
+                        backtrack_box.color = c.LIGHT_RED
+                        highlight_backtracking = not highlight_backtracking
 
                 # replace with is_pressed function
-                if maze_gen_box.rect.collidepoint(pygame.mouse.get_pos()) and stage == 1:
-                    watch_generation = not watch_generation
-
-                # replace with is_pressed function
-                if backtrack_box.rect.collidepoint(pygame.mouse.get_pos()) and stage == 1:
-                    highlight_backtracking = not highlight_backtracking
-
-                # replace with is_pressed function
-                if gen_button.rect.collidepoint(pygame.mouse.get_pos()) and stage == 1:
+                if gen_button.is_clicked(event) and stage == 1:
                     maze.generate_maze(watch_generation)
                     maze.solve_maze(0, 0, Wrapper.COLS - 1, Wrapper.ROWS - 1, highlight_backtracking)
                     stage = 2
@@ -59,7 +58,7 @@ def main():
                     maze.maze[x][y].color = c.LIGHT_RED
                     coordinates_clicked.append((x, y))
                     if len(coordinates_clicked) == 2:
-                        maze.solve_maze(*coordinates_clicked[0], *coordinates_clicked[1])
+                        maze.solve_maze(*coordinates_clicked[0], *coordinates_clicked[1], highlight_backtracking)
                         coordinates_clicked.clear()
         pygame.display.update()
 
