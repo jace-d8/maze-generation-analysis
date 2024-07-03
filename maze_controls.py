@@ -1,6 +1,6 @@
 import pygame
 import constants as c
-from wrapper import Wrapper
+from app import App
 
 
 class Button:
@@ -9,14 +9,18 @@ class Button:
         self.text = text
         self.color = color
         self.hover_color = hov_color
-        self.text = pygame.font.SysFont('Times New Roman', 40)
+        self.font = pygame.font.SysFont('Arial', 40)
+        self.is_checked = False
 
     def draw(self):
         if self.rect.collidepoint(pygame.mouse.get_pos()):
-            pygame.draw.rect(Wrapper.SCREEN, self.hover_color, self.rect)
-            # Wrapper.SCREEN.blit(self.text)
+            pygame.draw.rect(App.SCREEN, self.hover_color, self.rect)
         else:
-            pygame.draw.rect(Wrapper.SCREEN, self.color, self.rect)
+            pygame.draw.rect(App.SCREEN, self.color, self.rect)
+
+        text_surf = self.font.render(self.text, True, c.WHITE)
+        text_rect = text_surf.get_rect(center=self.rect.center)
+        App.SCREEN.blit(text_surf, text_rect)
 
     def is_clicked(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:

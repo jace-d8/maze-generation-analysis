@@ -1,8 +1,6 @@
-
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 GREEN = (0, 204, 0)
 LIGHT_RED = (255, 153, 156)
 WALL_WIDTH = 2
-

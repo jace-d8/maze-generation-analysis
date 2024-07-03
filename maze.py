@@ -1,23 +1,22 @@
 import pygame
 import pygame.rect
 from cell import Cell
-from wrapper import Wrapper
+from app import App
 import constants as c
 import random
 
-
 class Maze:
     def __init__(self):
-        self.maze = [[Cell(i * Wrapper.SIZE, j * Wrapper.SIZE) for j in range(Wrapper.ROWS)] for i in
-                     range(Wrapper.COLS)]
+        self.maze = [[Cell(i * App.SIZE, j * App.SIZE) for j in range(App.ROWS)] for i in
+                     range(App.COLS)]
 
     def generate_maze(self, maze_gen_box):
-        self.gen_maze_helper(random.randint(0, Wrapper.COLS - 1), random.randint(0, Wrapper.ROWS - 1), maze_gen_box)
+        self.gen_maze_helper(random.randint(0, App.COLS - 1), random.randint(0, App.ROWS - 1), maze_gen_box)
         # Pass in a random starting point for the maze to begin generation
 
     def gen_maze_helper(self, x, y, maze_gen_box):
         # check validity of current cell - if invalid return false
-        if x + 1 > Wrapper.COLS or y + 1 > Wrapper.ROWS or x < 0 or y < 0 or self.maze[x][y].generated:
+        if x + 1 > App.COLS or y + 1 > App.ROWS or x < 0 or y < 0 or self.maze[x][y].generated:
             return
         else:  # else this cell is valid can be updated to visited
             self.maze[x][y].generate()
@@ -38,7 +37,7 @@ class Maze:
     def gen_direction(self, compass, x, y, maze_gen_box):
         # choose random direction, if the direction is invalid, remove it and try again
         for (newX, newY), direction in random.sample(compass, len(compass)):
-            if 0 <= newX < Wrapper.COLS and 0 <= newY < Wrapper.ROWS and not self.maze[newX][newY].generated:
+            if 0 <= newX < App.COLS and 0 <= newY < App.ROWS and not self.maze[newX][newY].generated:
                 if direction == "up":
                     self.maze[x][y].walls["top"] = False
                     self.maze[newX][newY].walls["bottom"] = False
@@ -56,14 +55,14 @@ class Maze:
             # there are more directions available in the loop
 
     def draw_maze(self):
-        for i in range(Wrapper.COLS):
-            for j in range(Wrapper.ROWS):
+        for i in range(App.COLS):
+            for j in range(App.ROWS):
                 self.maze[i][j].draw()
             # pygame.time.delay(c.DELAY)
 
     def reset_maze(self):
-        for i in range(Wrapper.COLS):
-            for j in range(Wrapper.ROWS):
+        for i in range(App.COLS):
+            for j in range(App.ROWS):
                 self.maze[i][j].color = c.WHITE
 
     def solve_maze(self, x, y, end_x, end_y, highlight_backtracking):
