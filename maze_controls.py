@@ -29,5 +29,10 @@ class Button:
         return False
 
 
-class MazeControls:
-    print("IN PROGRESS")
+class BackDrop:
+    def __init__(self, color, x, y, w, h):
+        self.color = color
+        self.rect = pygame.Rect(x, y, w, h)
+
+    def draw(self):
+        pygame.draw.rect(App.SCREEN, self.color, self.rect)

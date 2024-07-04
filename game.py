@@ -1,6 +1,7 @@
 import pygame
 from app import App
 from maze_controls import Button
+from maze_controls import BackDrop
 import constants as c
 from sys import exit
 
@@ -12,6 +13,7 @@ class Game:
         self.maze_gen_box = Button(260, 300, 40, 40, "A", c.GREEN, c.RED)
         self.backtrack_box = Button(260, 350, 40, 40, "B", c.GREEN, c.RED)
         self.path_gen_box = Button(260, 400, 40, 40, "C", c.GREEN, c.RED)
+        self.backdrop_a = BackDrop(c.BLACK, 200, 200, 800, 500)
 
         self.stage = 1
         self.coordinates_clicked = []
@@ -25,7 +27,7 @@ class Game:
             maze.draw_maze()
 
             if not self.generated:
-                self.draw_buttons()
+                self.draw_all()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -69,9 +71,11 @@ class Game:
                 maze.solve_maze(*self.coordinates_clicked[0], *self.coordinates_clicked[1], self.highlight_backtracking, self.watch_path)
                 self.coordinates_clicked.clear()
 
-    def draw_buttons(self):
+    def draw_all(self):
+        self.backdrop_a.draw()
         self.gen_button.draw()
         self.backtrack_box.draw()
         self.maze_gen_box.draw()
         self.path_gen_box.draw()
         # size_slider.draw()
+
