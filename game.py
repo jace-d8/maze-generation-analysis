@@ -14,6 +14,7 @@ class Game:
         self.backtrack_box = Button(260, 350, 40, 40, "B", c.GREEN, c.RED)
         self.path_gen_box = Button(260, 400, 40, 40, "C", c.GREEN, c.RED)
         self.backdrop_a = BackDrop(c.BLACK, 200, 200, 800, 500)
+        self.backdrop_b = BackDrop(c.WHITE, 190, 190, 820, 520)
 
         self.stage = 1
         self.coordinates_clicked = []
@@ -72,6 +73,7 @@ class Game:
                 self.coordinates_clicked.clear()
 
     def draw_all(self):
+        self.backdrop_b.draw()
         self.backdrop_a.draw()
         self.gen_button.draw()
         self.backtrack_box.draw()
