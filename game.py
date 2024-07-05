@@ -13,6 +13,7 @@ class Game:
         self.maze_gen_box = Button(260, 300, 40, 40, "A", c.GREEN, c.RED)
         self.backtrack_box = Button(260, 350, 40, 40, "B", c.GREEN, c.RED)
         self.path_gen_box = Button(260, 400, 40, 40, "C", c.GREEN, c.RED)
+        self.title = Button(380, 200, 400, 70, "Maze Generator", c.BLACK, c.BLACK)
         self.backdrop_a = BackDrop(c.BLACK, 200, 200, 800, 500)
         self.backdrop_b = BackDrop(c.WHITE, 190, 190, 820, 520)
 
@@ -79,5 +80,6 @@ class Game:
         self.backtrack_box.draw()
         self.maze_gen_box.draw()
         self.path_gen_box.draw()
+        self.title.draw()
         # size_slider.draw()
 
