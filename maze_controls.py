@@ -4,12 +4,12 @@ from app import App
 
 
 class Button:
-    def __init__(self, x, y, w, h, text, color, hov_color):
+    def __init__(self, x, y, w, h, text, color, hov_color, font_size):
         self.rect = pygame.Rect(x, y, w, h)
         self.text = text
         self.color = color
         self.hover_color = hov_color
-        self.font = pygame.font.SysFont('Arial', 40)
+        self.font = pygame.font.SysFont('Arial', font_size)
         self.is_checked = False
 
     def draw(self):
@@ -18,6 +18,7 @@ class Button:
         else:
             pygame.draw.rect(App.SCREEN, self.color, self.rect)
 
+        # pygame.draw.rect(App.SCREEN, c.RED, self.rect)
         text_surf = self.font.render(self.text, True, c.WHITE)
         text_rect = text_surf.get_rect(center=self.rect.center)
         App.SCREEN.blit(text_surf, text_rect)
