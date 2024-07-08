@@ -55,6 +55,10 @@ class Game:
                 self.path_gen_box.is_checked = not self.path_gen_box.is_checked
                 self.path_gen_box.color = c.GREEN if self.path_gen_box.is_checked else c.WHITE
                 self.watch_path = not self.watch_path
+            if self.time_delay_box.is_clicked(event):
+                self.time_delay_box.is_checked = not self.time_delay_box.is_checked
+                self.time_delay_box.color = c.GREEN if self.time_delay_box.is_checked else c.WHITE
+                App.DELAY = 2 if self.time_delay_box.is_checked else 0
         # OPTIMIZE LATER ^^^
 
     def execute_generation(self, event, maze):

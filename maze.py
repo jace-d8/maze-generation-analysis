@@ -58,7 +58,7 @@ class Maze:
         for i in range(App.COLS):
             for j in range(App.ROWS):
                 self.maze[i][j].draw()
-            # pygame.time.delay(c.DELAY)
+            pygame.time.delay(App.DELAY)
 
     def reset_maze(self):
         for i in range(App.COLS):
