@@ -11,9 +11,9 @@ class Game:
     def __init__(self):
         self.gen_button = Button(480, 600, 200, 50, "Generate", c.GREEN, c.RED, 40)
         self.maze_gen_box = Button(260, 300, 40, 40, "Test", c.WHITE, c.LIGHT_GREEN, 20)
-        self.backtrack_box = Button(260, 400, 40, 40, None, c.WHITE, c.LIGHT_GREEN, 20)
-        self.path_gen_box = Button(260, 500, 40, 40, None, c.WHITE, c.LIGHT_GREEN, 20)
-        self.time_delay_box = Button(900, 300, 40, 40, None, c.WHITE, c.LIGHT_GREEN, 20)
+        self.backtrack_box = Button(260, 375, 40, 40, None, c.WHITE, c.LIGHT_GREEN, 20)
+        self.path_gen_box = Button(260, 450, 40, 40, None, c.WHITE, c.LIGHT_GREEN, 20)
+        self.time_delay_box = Button(260, 525, 40, 40, None, c.WHITE, c.LIGHT_GREEN, 20)
         self.title = Button(380, 200, 400, 70, "Maze Generator", c.BLACK, c.BLACK, 40)
         self.backdrop_a = BackDrop(c.BLACK, 200, 200, 800, 500)
         self.backdrop_b = BackDrop(c.WHITE, 190, 190, 820, 520)
