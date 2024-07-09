@@ -87,5 +87,4 @@ class Game:
         self.path_gen_box.draw()
         self.time_delay_box.draw()
         self.title.draw()
-        # size_slider.draw()
 
