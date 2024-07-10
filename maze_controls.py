@@ -3,25 +3,26 @@ import constants as c
 from app import App
 
 
-class Button:
-    def __init__(self, x, y, w, h, text, color, hov_color, font_size):
+class GUIRect:
+    def __init__(self, x, y, w, h, color):
         self.rect = pygame.Rect(x, y, w, h)
-        self.text = text
         self.color = color
+
+    def draw(self):
+        pygame.draw.rect(App.SCREEN, self.color, self.rect)
+
+
+class Button(GUIRect):
+    def __init__(self, x, y, w, h, color, hov_color):
+        super().__init__(x, y, w, h, color)
         self.hover_color = hov_color
-        self.font = pygame.font.SysFont('Arial', font_size)
         self.is_checked = False
 
     def draw(self):
         if self.rect.collidepoint(pygame.mouse.get_pos()):
             pygame.draw.rect(App.SCREEN, self.hover_color, self.rect)
         else:
-            pygame.draw.rect(App.SCREEN, self.color, self.rect)
-
-        # pygame.draw.rect(App.SCREEN, c.RED, self.rect)
-        text_surf = self.font.render(self.text, True, c.WHITE)
-        text_rect = text_surf.get_rect(center=self.rect.center)
-        App.SCREEN.blit(text_surf, text_rect)
+            super().draw()
 
     def is_clicked(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -30,13 +31,16 @@ class Button:
         return False
 
 
-class BackDrop:
-    def __init__(self, color, x, y, w, h):
-        self.color = color
-        self.rect = pygame.Rect(x, y, w, h)
+class TextBox(GUIRect):
+    def __init__(self, x, y, w, h, color, text, font_size):
+        super().__init__(x, y, w, h, color)
+        self.text = text
+        self.font = pygame.font.SysFont('Arial', font_size)
 
     def draw(self):
-        pygame.draw.rect(App.SCREEN, self.color, self.rect)
+        text_surf = self.font.render(self.text, True, c.WHITE)
+        text_rect = text_surf.get_rect(center=self.rect.center)
+        App.SCREEN.blit(text_surf, text_rect)
 
 
 class Slider:

@@ -1,22 +1,28 @@
 import pygame
 from app import App
 from maze_controls import Button
-from maze_controls import BackDrop
+from maze_controls import GUIRect
+from maze_controls import TextBox
 import constants as c
 from sys import exit
 
 
 class Game:
-
     def __init__(self):
-        self.gen_button = Button(480, 600, 200, 50, "Generate", c.GREEN, c.RED, 40)
-        self.maze_gen_box = Button(260, 300, 40, 40, "Test", c.WHITE, c.LIGHT_GREEN, 20)
-        self.backtrack_box = Button(260, 375, 40, 40, None, c.WHITE, c.LIGHT_GREEN, 20)
-        self.path_gen_box = Button(260, 450, 40, 40, None, c.WHITE, c.LIGHT_GREEN, 20)
-        self.time_delay_box = Button(260, 525, 40, 40, None, c.WHITE, c.LIGHT_GREEN, 20)
-        self.title = Button(380, 200, 400, 70, "Maze Generator", c.BLACK, c.BLACK, 40)
-        self.backdrop_a = BackDrop(c.BLACK, 200, 200, 800, 500)
-        self.backdrop_b = BackDrop(c.WHITE, 190, 190, 820, 520)
+        self.gen_button = Button(480, 600, 200, 50, c.GREEN, c.RED)
+        self.gen_title = TextBox(480, 600, 200, 50, c.WHITE, "Generate", 40)
+        self.maze_gen_box = Button(260, 300, 40, 40, c.WHITE, c.LIGHT_GREEN)
+        self.maze_gen_box_text = TextBox(380, 300, 40, 40, c.WHITE, "Skip maze animation", 20)
+        self.backtrack_box = Button(260, 375, 40, 40, c.WHITE, c.LIGHT_GREEN)
+        self.backtrack_box_text = TextBox(420, 375, 40, 40, c.WHITE, "Turn off backtrack highlighting", 20)
+        self.path_gen_box = Button(260, 450, 40, 40, c.WHITE, c.LIGHT_GREEN)
+        self.path_gen_box_text = TextBox(380, 450, 40, 40, c.WHITE, "Skip path generation", 20)
+        self.time_delay_box = Button(260, 525, 40, 40, c.WHITE, c.LIGHT_GREEN)
+        self.time_delay_box_title = TextBox(380, 525, 40, 40, c.WHITE, "Slow-Mo generation", 20)
+
+        self.title = TextBox(380, 200, 400, 70, c.BLACK, "Maze Generator", 40)
+        self.backdrop_a = GUIRect(200, 200, 800, 500, c.BLACK)
+        self.backdrop_b = GUIRect(190, 190, 820, 520, c.WHITE)
 
         self.stage = 1
         self.coordinates_clicked = []
@@ -87,4 +93,8 @@ class Game:
         self.path_gen_box.draw()
         self.time_delay_box.draw()
         self.title.draw()
-
+        self.gen_title.draw()
+        self.maze_gen_box_text.draw()
+        self.backtrack_box_text.draw()
+        self.path_gen_box_text.draw()
+        self.time_delay_box_title.draw()
