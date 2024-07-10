@@ -85,16 +85,10 @@ class Game:
                 self.coordinates_clicked.clear()
 
     def draw_all(self):
-        self.backdrop_b.draw()
-        self.backdrop_a.draw()
-        self.gen_button.draw()
-        self.backtrack_box.draw()
-        self.maze_gen_box.draw()
-        self.path_gen_box.draw()
-        self.time_delay_box.draw()
-        self.title.draw()
-        self.gen_title.draw()
-        self.maze_gen_box_text.draw()
-        self.backtrack_box_text.draw()
-        self.path_gen_box_text.draw()
-        self.time_delay_box_title.draw()
+        draw_list = [
+            self.backdrop_b, self.backdrop_a, self.gen_button, self.backtrack_box, self.maze_gen_box, self.path_gen_box,
+            self.time_delay_box, self.title, self.gen_title, self.maze_gen_box_text, self.backtrack_box_text,
+            self.path_gen_box_text, self.time_delay_box_title]
+
+        for items in draw_list:
+            items.draw()
