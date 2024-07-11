@@ -9,21 +9,26 @@ from sys import exit
 
 class Game:
     def __init__(self):
-        self.gen_button = Button(480, 600, 200, 50, c.GREEN, c.RED)
-        self.gen_title = TextBox(480, 600, 200, 50, c.WHITE, "Generate", 40)
-        self.maze_gen_box = Button(260, 300, 40, 40, c.WHITE, c.LIGHT_GREEN)
-        self.maze_gen_box_text = TextBox(380, 300, 40, 40, c.WHITE, "Skip maze animation", 20)
-        self.backtrack_box = Button(260, 375, 40, 40, c.WHITE, c.LIGHT_GREEN)
-        self.backtrack_box_text = TextBox(420, 375, 40, 40, c.WHITE, "Turn off backtrack highlighting", 20)
-        self.path_gen_box = Button(260, 450, 40, 40, c.WHITE, c.LIGHT_GREEN)
-        self.path_gen_box_text = TextBox(380, 450, 40, 40, c.WHITE, "Skip path generation", 20)
-        self.time_delay_box = Button(260, 525, 40, 40, c.WHITE, c.LIGHT_GREEN)
-        self.time_delay_box_title = TextBox(380, 525, 40, 40, c.WHITE, "Slow-Mo generation", 20)
-
-        self.title = TextBox(380, 200, 400, 70, c.BLACK, "Maze Generator", 40)
+        # Backdrops
         self.backdrop_a = GUIRect(200, 200, 800, 500, c.BLACK)
         self.backdrop_b = GUIRect(190, 190, 820, 520, c.WHITE)
 
+        # Buttons
+        self.gen_button = Button(480, 600, 200, 50, c.GREEN, c.RED)
+        self.maze_gen_box = Button(260, 300, 40, 40, c.WHITE, c.LIGHT_GREEN)
+        self.backtrack_box = Button(260, 375, 40, 40, c.WHITE, c.LIGHT_GREEN)
+        self.path_gen_box = Button(260, 450, 40, 40, c.WHITE, c.LIGHT_GREEN)
+        self.time_delay_box = Button(260, 525, 40, 40, c.WHITE, c.LIGHT_GREEN)
+
+        # Textboxes
+        self.gen_title = TextBox(480, 600, 200, 50, c.WHITE, "Generate", 40)
+        self.maze_gen_box_text = TextBox(380, 300, 40, 40, c.WHITE, "Skip maze animation", 20)
+        self.backtrack_box_text = TextBox(420, 375, 40, 40, c.WHITE, "Turn off backtrack highlighting", 20)
+        self.path_gen_box_text = TextBox(380, 450, 40, 40, c.WHITE, "Skip path generation", 20)
+        self.time_delay_box_title = TextBox(380, 525, 40, 40, c.WHITE, "Slow-Mo generation", 20)
+        self.title = TextBox(380, 200, 400, 70, c.BLACK, "Maze Generator", 40)
+
+        # Game state
         self.stage = 1
         self.coordinates_clicked = []
         self.generated = self.is_delay = False
@@ -81,7 +86,8 @@ class Game:
             maze.maze[x][y].color = c.LIGHT_RED
             self.coordinates_clicked.append((x, y))
             if len(self.coordinates_clicked) == 2:
-                maze.solve_maze(*self.coordinates_clicked[0], *self.coordinates_clicked[1], self.highlight_backtracking, self.watch_path)
+                maze.solve_maze(*self.coordinates_clicked[0], *self.coordinates_clicked[1], self.highlight_backtracking,
+                                self.watch_path)
                 self.coordinates_clicked.clear()
 
     def draw_all(self):

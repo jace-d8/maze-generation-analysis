@@ -6,7 +6,7 @@ from maze import Maze
 
 def main():
     pygame.init()
-    sys.setrecursionlimit(20000)
+    sys.setrecursionlimit(99999)
     pygame.display.set_caption("Maze Generator")
     maze = Maze()
     game = Game()

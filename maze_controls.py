@@ -43,9 +43,12 @@ class TextBox(GUIRect):
         App.SCREEN.blit(text_surf, text_rect)
 
 
-class Slider:
-    def __init__(self, button_color, slider_color, x, y, w, h):
-        self.button_color = button_color
+class Slider(GUIRect):
+    def __init__(self, button_color, slider_color, x, y, w, h, color):
+        super().__init__(x, y, w, h, color)
         self.slider_color = slider_color
-        # self.button = pygame.Rect()
         self.slider = pygame.Rect(x, y, w, h)
+
+    def draw(self):
+        super().draw()
+        pygame.draw.rect(App.SCREEN, self.color, self.slider)
