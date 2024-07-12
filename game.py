@@ -3,6 +3,7 @@ from app import App
 from maze_controls import Button
 from maze_controls import GUIRect
 from maze_controls import TextBox
+from maze_controls import Slider
 import constants as c
 from sys import exit
 
@@ -19,6 +20,9 @@ class Game:
         self.backtrack_box = Button(260, 375, 40, 40, c.WHITE, c.LIGHT_GREEN)
         self.path_gen_box = Button(260, 450, 40, 40, c.WHITE, c.LIGHT_GREEN)
         self.time_delay_box = Button(260, 525, 40, 40, c.WHITE, c.LIGHT_GREEN)
+
+        # slider
+        self.slider = Slider(860, 250, 40, 400, 50, 50, c.WHITE, c.LIGHT_RED)
 
         # Textboxes
         self.gen_title = TextBox(480, 600, 200, 50, c.WHITE, "Generate", 40)
@@ -94,7 +98,7 @@ class Game:
         draw_list = [
             self.backdrop_b, self.backdrop_a, self.gen_button, self.backtrack_box, self.maze_gen_box, self.path_gen_box,
             self.time_delay_box, self.title, self.gen_title, self.maze_gen_box_text, self.backtrack_box_text,
-            self.path_gen_box_text, self.time_delay_box_title]
+            self.path_gen_box_text, self.time_delay_box_title, self.slider]
 
         for items in draw_list:
             items.draw()
