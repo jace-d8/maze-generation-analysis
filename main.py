@@ -16,6 +16,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-# UI Ideas:
-# Size slider : 4, 5, 8, 10, 16, 20, 25, 40, 50, 80, 100, 200 400
-

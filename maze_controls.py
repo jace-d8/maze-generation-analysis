@@ -64,5 +64,24 @@ class Slider(GUIRect):
         if self.drag:
             if 600 >= pygame.mouse.get_pos()[1] >= 250:
                 self.rect.y = pygame.mouse.get_pos()[1]
-
-
+        slider_value = {
+            range(575, 600): 4,
+            range(550, 575): 5,
+            range(525, 550): 8,
+            range(500, 525): 10,
+            range(475, 500): 16,
+            range(450, 475): 20,
+            range(425, 450): 25,
+            range(400, 425): 40,
+            range(375, 400): 50,
+            range(350, 375): 80,
+            range(325, 350): 100,
+            range(275, 300): 200,
+            range(250, 275): 400,
+        }
+        for mouse_range, value in slider_value.items():
+            if self.rect.y in mouse_range:
+                App.SIZE = value
+                print(App.SIZE)
+                break
+        # Size slider : 4, 5, 8, 10, 16, 20, 25, 40, 50, 80, 100, 200 400
