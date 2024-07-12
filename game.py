@@ -22,7 +22,7 @@ class Game:
         self.time_delay_box = Button(260, 525, 40, 40, c.WHITE, c.LIGHT_GREEN)
 
         # slider
-        self.slider = Slider(860, 250, 40, 400, 50, 50, c.WHITE, c.LIGHT_RED)
+        self.slider = Slider(860, 250, 40, 400, 50, 50, c.WHITE, c.GREY)
 
         # Textboxes
         self.gen_title = TextBox(480, 600, 200, 50, c.WHITE, "Generate", 40)
@@ -31,6 +31,7 @@ class Game:
         self.path_gen_box_text = TextBox(380, 450, 40, 40, c.WHITE, "Skip path generation", 20)
         self.time_delay_box_title = TextBox(380, 525, 40, 40, c.WHITE, "Slow-Mo generation", 20)
         self.title = TextBox(380, 200, 400, 70, c.BLACK, "Maze Generator", 40)
+        self.slider_title = TextBox(750, 430, 40, 40, c.WHITE, f"Cell Size: {App.SIZE}", 20)
 
         # Game state
         self.stage = 1
@@ -53,6 +54,9 @@ class Game:
                     exit()
 
                 self.slider.update(event)
+                maze.update_size(App.SIZE)
+                self.slider_title.update(f"Cell Size: {App.SIZE}")
+                # to update the size the maze must reinitialized with the newly sized cells
                 self.handle_checkboxes(event)
                 self.execute_generation(event, maze)
             pygame.display.update()
@@ -99,7 +103,7 @@ class Game:
         draw_list = [
             self.backdrop_b, self.backdrop_a, self.gen_button, self.backtrack_box, self.maze_gen_box, self.path_gen_box,
             self.time_delay_box, self.title, self.gen_title, self.maze_gen_box_text, self.backtrack_box_text,
-            self.path_gen_box_text, self.time_delay_box_title, self.slider]
+            self.path_gen_box_text, self.time_delay_box_title, self.slider, self.slider_title]
 
         for items in draw_list:
             items.draw()

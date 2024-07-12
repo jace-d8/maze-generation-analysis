@@ -34,13 +34,16 @@ class Button(GUIRect):
 class TextBox(GUIRect):
     def __init__(self, x, y, w, h, color, text, font_size):
         super().__init__(x, y, w, h, color)
-        self.text = text
+        self.text = str(text)
         self.font = pygame.font.SysFont('Arial', font_size)
 
     def draw(self):
         text_surf = self.font.render(self.text, True, c.WHITE)
         text_rect = text_surf.get_rect(center=self.rect.center)
         App.SCREEN.blit(text_surf, text_rect)
+
+    def update(self, text):
+        self.text = str(text)
 
 
 class Slider(GUIRect):
@@ -82,6 +85,6 @@ class Slider(GUIRect):
         for mouse_range, value in slider_value.items():
             if self.rect.y in mouse_range:
                 App.SIZE = value
-                print(App.SIZE)
+                App.COLS = int(App.SCREEN.get_width() / App.SIZE)
+                App.ROWS = int(App.SCREEN.get_height() / App.SIZE)
                 break
-        # Size slider : 4, 5, 8, 10, 16, 20, 25, 40, 50, 80, 100, 200 400

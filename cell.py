@@ -32,3 +32,10 @@ class Cell:
                              (self.x + self.size, self.y + self.size), c.WALL_WIDTH)
         if self.walls["left"]:
             pygame.draw.line(App.SCREEN, wall_color, (self.x, self.y), (self.x, self.y + self.size), c.WALL_WIDTH)
+
+    def update_size(self, new_size):
+        self.size = new_size
+
+    def update_pos(self, new_x, new_y):
+        self.x = new_x
+        self.y = new_y

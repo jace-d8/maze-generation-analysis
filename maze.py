@@ -5,10 +5,10 @@ from app import App
 import constants as c
 import random
 
+
 class Maze:
     def __init__(self):
-        self.maze = [[Cell(i * App.SIZE, j * App.SIZE) for j in range(App.ROWS)] for i in
-                     range(App.COLS)]
+        self.maze = [[Cell(i * App.SIZE, j * App.SIZE) for j in range(App.ROWS)] for i in range(App.COLS)]
 
     def generate_maze(self, maze_gen_box):
         self.gen_maze_helper(random.randint(0, App.COLS - 1), random.randint(0, App.ROWS - 1), maze_gen_box)
@@ -64,6 +64,12 @@ class Maze:
         for i in range(App.COLS):
             for j in range(App.ROWS):
                 self.maze[i][j].color = c.WHITE
+
+    def update_size(self, new_size):
+        for i in range(App.COLS):
+            for j in range(App.ROWS):
+                self.maze[i][j].update_size(new_size)
+                self.maze[i][j].update_pos(i * new_size, j * new_size)
 
     def solve_maze(self, x, y, end_x, end_y, highlight_backtracking, watch_path):
         current_cell = self.maze[x][y]  # for simplification
