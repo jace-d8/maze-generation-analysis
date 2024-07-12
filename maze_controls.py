@@ -47,10 +47,22 @@ class Slider(GUIRect):
     def __init__(self, slider_x, slider_y, slider_width, slider_height, button_width, button_height, color, slider_color):
         self.slider_color = slider_color
         self.slider = pygame.Rect(slider_x, slider_y, slider_width, slider_height)
-        button_x = self.slider.centerx - button_width / 2
-        super().__init__(button_x, self.slider.centery, button_width, button_height, color)
+        self.button_x = self.slider.centerx - button_width / 2
+        self.button_y = self.slider.centery - button_height / 2
+        self.drag = False
+        super().__init__(self.button_x, self.button_y, button_width, button_height, color)
 
     def draw(self):
         pygame.draw.rect(App.SCREEN, self.slider_color, self.slider, border_radius=20)
         super().draw()
+
+    def update(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(pygame.mouse.get_pos()):
+            self.drag = True
+        if event.type == pygame.MOUSEBUTTONUP:
+            self.drag = False
+        if self.drag:
+            if 600 >= pygame.mouse.get_pos()[1] >= 250:
+                self.rect.y = pygame.mouse.get_pos()[1]
+
 

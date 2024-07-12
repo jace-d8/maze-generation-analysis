@@ -51,9 +51,10 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    self.handle_checkboxes(event)
-                    self.execute_generation(event, maze)
+
+                self.slider.update(event)
+                self.handle_checkboxes(event)
+                self.execute_generation(event, maze)
             pygame.display.update()
 
     def handle_checkboxes(self, event):
