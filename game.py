@@ -104,6 +104,7 @@ class Game:
             self.backdrop_b, self.backdrop_a, self.gen_button, self.backtrack_box, self.maze_gen_box, self.path_gen_box,
             self.time_delay_box, self.title, self.gen_title, self.maze_gen_box_text, self.backtrack_box_text,
             self.path_gen_box_text, self.time_delay_box_title, self.slider, self.slider_title]
+        # a list of drawable items
 
         for items in draw_list:
             items.draw()

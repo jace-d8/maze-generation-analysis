@@ -82,6 +82,7 @@ class Slider(GUIRect):
             range(275, 300): 200,
             range(250, 275): 400,
         }
+        # a dictionary to correlate the y value of the slider and a given possible cell size
         for mouse_range, value in slider_value.items():
             if self.rect.y in mouse_range:
                 App.SIZE = value
