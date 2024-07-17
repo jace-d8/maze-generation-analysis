@@ -2,6 +2,7 @@ import pygame
 import pygame.rect
 from cell import Cell
 from app import App
+from analysis import Analysis
 import constants as c
 import random
 
@@ -60,11 +61,11 @@ class Maze:
                 self.maze[i][j].draw()
             pygame.time.delay(App.DELAY)
 
-
     def reset_maze(self):
         for i in range(App.COLS):
             for j in range(App.ROWS):
                 self.maze[i][j].color = c.WHITE
+
     # returns maze to default color making it "unvisited"
 
     def update_size(self, new_size):
@@ -72,6 +73,7 @@ class Maze:
             for j in range(App.ROWS):
                 self.maze[i][j].update_size(new_size)
                 self.maze[i][j].update_pos(i * new_size, j * new_size)
+
     # visits every cell in the maze to update the size according to the slider
 
     def solve_maze(self, x, y, end_x, end_y, highlight_backtracking, watch_path):

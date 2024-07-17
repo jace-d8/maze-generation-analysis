@@ -42,7 +42,6 @@ class Game:
     def run(self, maze):
 
         while True:
-            App.SCREEN.fill(c.WHITE)
             maze.draw_maze()
 
             if not self.generated:
@@ -82,7 +81,6 @@ class Game:
         # OPTIMIZE LATER ^^^
 
     def execute_generation(self, event, maze):
-
         if self.gen_button.is_clicked(event) and self.stage == 1:
             maze.generate_maze(self.watch_generation)
             maze.solve_maze(0, 0, App.COLS - 1, App.ROWS - 1, self.highlight_backtracking, self.watch_path)
@@ -105,6 +103,5 @@ class Game:
             self.time_delay_box, self.title, self.gen_title, self.maze_gen_box_text, self.backtrack_box_text,
             self.path_gen_box_text, self.time_delay_box_title, self.slider, self.slider_title]
         # a list of drawable items
-
         for items in draw_list:
             items.draw()
