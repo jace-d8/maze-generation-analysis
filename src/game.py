@@ -4,12 +4,15 @@ from maze_controls import Button
 from maze_controls import GUIRect
 from maze_controls import TextBox
 from maze_controls import Slider
-import constants as c
+from src.analysis import Analysis
+from src import constants as c
 from sys import exit
 
 
 class Game:
     def __init__(self):
+        # Analyze
+        self.analysis = Analysis()
         # Backdrops
         self.backdrop_a = GUIRect(200, 200, 800, 500, c.BLACK)
         self.backdrop_b = GUIRect(190, 190, 820, 520, c.WHITE)
@@ -49,6 +52,7 @@ class Game:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
+                    self.analysis.update_data()
                     pygame.quit()
                     exit()
 
@@ -57,7 +61,8 @@ class Game:
                 self.slider_title.update(f"Cell Size: {App.SIZE}")
                 # to update the size the maze must reinitialized with the newly sized cells
                 self.handle_checkboxes(event)
-                self.execute_generation(event, maze)
+                self.execute_generation(event, maze, self.analysis)
+                self.analysis.update_data()
             pygame.display.update()
 
     def handle_checkboxes(self, event):
@@ -80,9 +85,9 @@ class Game:
                 App.DELAY = 2 if self.time_delay_box.is_checked else 0
         # OPTIMIZE LATER ^^^
 
-    def execute_generation(self, event, maze):
+    def execute_generation(self, event, maze, analysis):
         if self.gen_button.is_clicked(event) and self.stage == 1:
-            maze.generate_maze(self.watch_generation)
+            maze.generate_maze(self.watch_generation, analysis)
             maze.solve_maze(0, 0, App.COLS - 1, App.ROWS - 1, self.highlight_backtracking, self.watch_path)
             self.stage = 2
             self.generated = True

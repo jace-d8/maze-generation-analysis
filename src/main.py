@@ -1,7 +1,7 @@
 import sys
 import pygame
-from game import Game
-from maze import Maze
+from src.game import Game
+from src.maze import Maze
 
 
 def main():
@@ -15,4 +15,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

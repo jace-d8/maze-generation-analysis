@@ -1,0 +1,5 @@
+Current direction: count - percentage
+up: 60607
+down: 60746
+left: 60763
+right: 60950

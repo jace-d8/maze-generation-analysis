@@ -2,8 +2,7 @@ import pygame
 import pygame.rect
 from cell import Cell
 from app import App
-from analysis import Analysis
-import constants as c
+from src import constants as c
 import random
 
 
@@ -11,11 +10,11 @@ class Maze:
     def __init__(self):
         self.maze = [[Cell(i * App.SIZE, j * App.SIZE) for j in range(App.ROWS)] for i in range(App.COLS)]
 
-    def generate_maze(self, maze_gen_box):
-        self.gen_maze_helper(random.randint(0, App.COLS - 1), random.randint(0, App.ROWS - 1), maze_gen_box)
+    def generate_maze(self, maze_gen_box, analysis):
+        self.gen_maze_helper(random.randint(0, App.COLS - 1), random.randint(0, App.ROWS - 1), maze_gen_box, analysis)
         # Pass in a random starting point for the maze to begin generation
 
-    def gen_maze_helper(self, x, y, maze_gen_box):
+    def gen_maze_helper(self, x, y, maze_gen_box, analysis):
         # check validity of current cell - if invalid return false
         if x + 1 > App.COLS or y + 1 > App.ROWS or x < 0 or y < 0 or self.maze[x][y].generated:
             return
@@ -33,26 +32,23 @@ class Maze:
             ((x - 1, y), "left")
         ]
 
-        self.gen_direction(compass, x, y, maze_gen_box)
+        self.gen_direction(compass, x, y, maze_gen_box, analysis)
 
-    def gen_direction(self, compass, x, y, maze_gen_box):
+    def gen_direction(self, compass, x, y, maze_gen_box, analysis):
+        wall_updates = {
+            "up": ("top", "bottom"),
+            "right": ("right", "left"),
+            "down": ("bottom", "top"),
+            "left": ("left", "right")
+        }
         # choose random direction, if the direction is invalid, remove it and try again
         for (newX, newY), direction in random.sample(compass, len(compass)):
             if 0 <= newX < App.COLS and 0 <= newY < App.ROWS and not self.maze[newX][newY].generated:
-                if direction == "up":
-                    self.maze[x][y].walls["top"] = False
-                    self.maze[newX][newY].walls["bottom"] = False
-                elif direction == "right":
-                    self.maze[x][y].walls["right"] = False
-                    self.maze[newX][newY].walls["left"] = False
-                elif direction == "down":
-                    self.maze[x][y].walls["bottom"] = False
-                    self.maze[newX][newY].walls["top"] = False
-                elif direction == "left":
-                    self.maze[x][y].walls["left"] = False
-                    self.maze[newX][newY].walls["right"] = False
-
-            self.gen_maze_helper(newX, newY, maze_gen_box)  # recursive step. If backtracking will occur if-
+                analysis.directional_variation(direction)
+                wall1, wall2 = wall_updates[direction]
+                self.maze[x][y].walls[wall1] = False
+                self.maze[newX][newY].walls[wall2] = False
+            self.gen_maze_helper(newX, newY, maze_gen_box, analysis)  # recursive step. If backtracking will occur if-
             # there are more directions available in the loop
 
     def draw_maze(self):
