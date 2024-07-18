@@ -67,7 +67,6 @@ class Analysis:
 
     def calculate_probability_distribution(self):
         total_elements = sum(1 for rows in self.matrix for elements in rows if elements != 0)
-        print(f"Total elements {total_elements}")
         for i in range(1, 15):
             count = 0
             for m in range(App.COLS):
@@ -82,3 +81,8 @@ class Analysis:
         entropy = -sum(p * math.log2(p) for p in self.probability_distribution if p > 0)
         print(entropy)
 
+    def run(self, maze):
+        self.update_data()
+        self.convert_maze(maze)
+        self.calculate_probability_distribution()
+        self.shannons_entropy()

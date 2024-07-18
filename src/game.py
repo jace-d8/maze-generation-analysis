@@ -19,6 +19,7 @@ class Game:
 
         # Buttons
         self.gen_button = Button(480, 600, 200, 50, c.GREEN, c.RED)
+        self.analyze_button = Button(1050, 25, 100, 50, c.LIGHT_BLACK, c.GREY)
         self.maze_gen_box = Button(260, 300, 40, 40, c.WHITE, c.LIGHT_GREEN)
         self.backtrack_box = Button(260, 375, 40, 40, c.WHITE, c.LIGHT_GREEN)
         self.path_gen_box = Button(260, 450, 40, 40, c.WHITE, c.LIGHT_GREEN)
@@ -29,6 +30,7 @@ class Game:
 
         # Textboxes
         self.gen_title = TextBox(480, 600, 200, 50, c.WHITE, "Generate", 40)
+        self.analyze_title = TextBox(1000, 25, 200, 50, c.WHITE, "Analyze", 20)
         self.maze_gen_box_text = TextBox(380, 300, 40, 40, c.WHITE, "Skip maze animation", 20)
         self.backtrack_box_text = TextBox(420, 375, 40, 40, c.WHITE, "Turn off backtrack highlighting", 20)
         self.path_gen_box_text = TextBox(380, 450, 40, 40, c.WHITE, "Skip path generation", 20)
@@ -52,10 +54,7 @@ class Game:
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.analysis.update_data()
-                    self.analysis.convert_maze(maze)
-                    self.analysis.calculate_probability_distribution()
-                    self.analysis.shannons_entropy()
+                    self.analysis.run(maze)
                     pygame.quit()
                     exit()
 
@@ -109,7 +108,8 @@ class Game:
         draw_list = [
             self.backdrop_b, self.backdrop_a, self.gen_button, self.backtrack_box, self.maze_gen_box, self.path_gen_box,
             self.time_delay_box, self.title, self.gen_title, self.maze_gen_box_text, self.backtrack_box_text,
-            self.path_gen_box_text, self.time_delay_box_title, self.slider, self.slider_title]
+            self.path_gen_box_text, self.time_delay_box_title, self.slider, self.slider_title, self.analyze_button,
+            self.analyze_title]
         # a list of drawable items
         for items in draw_list:
             items.draw()

@@ -3,6 +3,7 @@ from src import constants as c
 from app import App
 
 
+# GET RID OF W AND H ON TEXT
 class GUIRect:
     def __init__(self, x, y, w, h, color):
         self.rect = pygame.Rect(x, y, w, h)
@@ -47,7 +48,8 @@ class TextBox(GUIRect):
 
 
 class Slider(GUIRect):
-    def __init__(self, slider_x, slider_y, slider_width, slider_height, button_width, button_height, color, slider_color):
+    def __init__(self, slider_x, slider_y, slider_width, slider_height, button_width, button_height, color,
+                 slider_color):
         self.slider_color = slider_color
         self.slider = pygame.Rect(slider_x, slider_y, slider_width, slider_height)
         self.button_x = self.slider.centerx - button_width / 2
