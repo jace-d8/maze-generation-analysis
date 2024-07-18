@@ -61,26 +61,24 @@ class Maze:
         for i in range(App.COLS):
             for j in range(App.ROWS):
                 self.maze[i][j].color = c.WHITE
-
-    # returns maze to default color making it "unvisited"
+    # Returns every cell in the maze to the default color making it "unvisited"
 
     def update_size(self, new_size):
         for i in range(App.COLS):
             for j in range(App.ROWS):
                 self.maze[i][j].update_size(new_size)
                 self.maze[i][j].update_pos(i * new_size, j * new_size)
-
-    # visits every cell in the maze to update the size according to the slider
+    # visits every cell in the maze to update its size according to the slider value
 
     def solve_maze(self, x, y, end_x, end_y, highlight_backtracking, watch_path):
-        current_cell = self.maze[x][y]  # for simplification
-        current_cell.color = c.RED  # mark the cell visited by default
+        current_cell = self.maze[x][y]
+        current_cell.color = c.RED  # Mark the cell visited by default
 
         if watch_path:
             self.draw_maze()
             pygame.display.update()
 
-        compass = [  # the cell walls and the direction needed to move to next cell in said direction
+        compass = [  # The cell walls and the direction needed to move to next cell in said direction
             (current_cell.walls["top"], (x, y - 1)),
             (current_cell.walls["bottom"], (x, y + 1)),
             (current_cell.walls["right"], (x + 1, y)),
@@ -101,9 +99,9 @@ class Maze:
                         return True  # This will send "True" up the call stack and end the recursion
 
             current_cell.color = c.LIGHT_RED if highlight_backtracking else c.WHITE
-            # we've hit a dead end and must backtrack, turn this cell white
+            # We've hit a dead end and must backtrack, turn this cell white
             if watch_path:
                 self.draw_maze()
                 pygame.display.update()
             return False
-        # if we return to start and all surrounding cells have been hit , maze has no exit (which should never happen)
+        # If we return to start and all surrounding cells have been hit , maze has no exit (which should never happen)

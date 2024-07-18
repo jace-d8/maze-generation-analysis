@@ -67,6 +67,8 @@ class Slider(GUIRect):
         if self.drag:
             if 600 >= pygame.mouse.get_pos()[1] >= 250:
                 self.rect.y = pygame.mouse.get_pos()[1]
+                # Only update the sliders position if it is within the given Y bounds
+
         slider_value = {
             range(575, 600): 4,
             range(550, 575): 5,
@@ -82,7 +84,7 @@ class Slider(GUIRect):
             range(275, 300): 200,
             range(250, 275): 400,
         }
-        # a dictionary to correlate the y value of the slider and a given possible cell size
+        # A dictionary to correlate the y value of the slider and a given possible cell size
         for mouse_range, value in slider_value.items():
             if self.rect.y in mouse_range:
                 App.SIZE = value

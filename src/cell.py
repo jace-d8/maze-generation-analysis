@@ -4,7 +4,7 @@ from app import App
 
 
 class Cell:
-    def __init__(self, x, y):  # each cell will need coords to where they are being stored
+    def __init__(self, x, y):  # Each cell will need coords to where they are being stored
         self.x = x
         self.y = y
         self.generated = False

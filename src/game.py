@@ -53,6 +53,8 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.analysis.update_data()
+                    self.analysis.convert_maze(maze)
+                    print(self.analysis.matrix)
                     pygame.quit()
                     exit()
 
