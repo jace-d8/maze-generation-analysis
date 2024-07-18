@@ -1,5 +1,5 @@
 Current direction: count - percentage
-up: 120952
-down: 121256
-left: 121216
-right: 121416
+up: 235480
+down: 236139
+left: 236346
+right: 236233

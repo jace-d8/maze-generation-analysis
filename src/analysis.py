@@ -65,9 +65,20 @@ class Analysis:
                                 current_cell.walls["right"], current_cell.walls["bottom"])
                 self.matrix[j][i] = conversion.get(default_cell)
 
-
     def calculate_probability_distribution(self):
+        total_elements = sum(1 for rows in self.matrix for elements in rows if elements != 0)
+        print(f"Total elements {total_elements}")
+        for i in range(1, 15):
+            count = 0
+            for m in range(App.COLS):
+                for n in range(App.ROWS):
+                    if self.matrix[n][m] == i:
+                        count += 1
+            current_probability = count / total_elements
+            self.probability_distribution.append(current_probability)
 
-
+    # Shannon's entropy details in readme
     def shannons_entropy(self):
-        entropy = -sum(p * math.log(p) for p in probability_distribution)
+        entropy = -sum(p * math.log2(p) for p in self.probability_distribution if p > 0)
+        print(entropy)
+

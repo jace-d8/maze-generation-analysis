@@ -54,7 +54,8 @@ class Game:
                 if event.type == pygame.QUIT:
                     self.analysis.update_data()
                     self.analysis.convert_maze(maze)
-                    print(self.analysis.matrix)
+                    self.analysis.calculate_probability_distribution()
+                    self.analysis.shannons_entropy()
                     pygame.quit()
                     exit()
 
