@@ -4,35 +4,57 @@ import math
 
 class Analysis:
     """
-    The generic counter here is meant to count the total amount of turns taken (which can vary depending on the maze
+    The total count here is meant to count the total amount of turns taken (which can vary depending on the maze
     size) to calculate the percentage in which a direction is chosen. When init is called it will open the data file and
     populate the dictionary with the encapsulated data.
     """
 
     def __init__(self):
-        self.gen_count = 0
-        self.data_dictionary = {}
+        self.total_count = 0
+        self.current_count = 0
+        self.total_direction_count = {"up": 0, "down": 0, "left": 0, "right": 0}
+        self.current_direction_count = {"up": 0, "down": 0, "left": 0, "right": 0}
         self.matrix = []
         self.probability_distribution = []
+        self.load()
 
+    def load(self):
         with open("../data/data.txt", 'r') as data:
+            temp = 0
             data.readline()  # Skip the first line of file
             for line in data:
-                direction, count = line.strip().split(': ')
-                self.data_dictionary[direction] = int(count)
+                temp += 1
+                direction, other = line.strip().split(': ')
+                count = other.split(' - ')[0]  # the [0] is select the first element in the list as the split
+                # generates two, the number before the dash and the number after
+                self.total_direction_count[direction] = int(count)
+                if temp == 4:
+                    break
 
     # P(E) should be 1/4 as S = 4 and E = 1
     def directional_variation(self, direction):
-        if direction in self.data_dictionary:
-            self.data_dictionary[direction] += 1
-            self.gen_count += 1
+        if direction in self.total_direction_count:
+            self.total_direction_count[direction] += 1
+            self.current_direction_count[direction] += 1
+            self.current_count += 1
+        else:
+            print("Error")
 
     def update_data(self):
+        self.total_count = sum(self.total_direction_count.values())
         with open("../data/data.txt", 'w') as data:
-            data.write("Current direction: count - percentage\n")
-            for direction, count in self.data_dictionary.items():
-                data.write(f"{direction}: {count}\n")
+            data.write("Total direction counter: count - percentage\n")
 
+            for direction, count in self.total_direction_count.items():
+                if self.total_count != 0:
+                    percentage = count / self.total_count
+                    data.write(f"{direction}: {count} - {percentage * 100:.3f}%\n")
+            data.write("Current direction counter: count - percentage\n")
+
+            for direction, count in self.current_direction_count.items():
+                if self.current_count != 0:
+                    percentage = count / self.current_count
+                    data.write(f"{direction}: {count} - {percentage * 100:.3f}%\n")
     # MAKE INTO PERCENTAGE HERE
 
     """
@@ -75,6 +97,7 @@ class Analysis:
                         count += 1
             current_probability = count / total_elements
             self.probability_distribution.append(current_probability)
+            # OPTIMIZE
 
     # Shannon's entropy details in readme
     def shannons_entropy(self):

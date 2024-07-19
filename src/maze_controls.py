@@ -17,6 +17,7 @@ class Button(GUIRect):
     def __init__(self, x, y, w, h, color, hov_color):
         super().__init__(x, y, w, h, color)
         self.hover_color = hov_color
+        self.clicked_color = c.GREEN
         self.is_checked = False
 
     def draw(self):
@@ -28,6 +29,8 @@ class Button(GUIRect):
     def is_clicked(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.rect.collidepoint(pygame.mouse.get_pos()):
+                self.is_checked = not self.is_checked
+                self.color = c.GREEN if self.is_checked else c.WHITE
                 return True
         return False
 
@@ -93,3 +96,37 @@ class Slider(GUIRect):
                 App.COLS = int(App.SCREEN.get_width() / App.SIZE)
                 App.ROWS = int(App.SCREEN.get_height() / App.SIZE)
                 break
+
+
+class MazeControls:
+    def __init__(self):
+        # Backdrops
+        self.backdrop_b = GUIRect(190, 190, 820, 520, c.WHITE)
+        self.backdrop_a = GUIRect(200, 200, 800, 500, c.BLACK)
+
+        # Buttons
+        self.gen_button = Button(480, 600, 200, 50, c.GREEN, c.RED)
+        self.analyze_button = Button(1050, 25, 100, 50, c.LIGHT_BLACK, c.GREY)
+        self.maze_gen_box = Button(260, 300, 40, 40, c.WHITE, c.LIGHT_GREEN)
+        self.backtrack_box = Button(260, 375, 40, 40, c.WHITE, c.LIGHT_GREEN)
+        self.path_gen_box = Button(260, 450, 40, 40, c.WHITE, c.LIGHT_GREEN)
+        self.time_delay_box = Button(260, 525, 40, 40, c.WHITE, c.LIGHT_GREEN)
+
+        # slider
+        self.slider = Slider(860, 250, 40, 400, 50, 50, c.WHITE, c.GREY)
+
+        # Textboxes
+        self.gen_title = TextBox(480, 600, 200, 50, c.WHITE, "Generate", 40)
+        self.analyze_title = TextBox(1000, 25, 200, 50, c.WHITE, "Analyze", 20)
+        self.maze_gen_box_text = TextBox(380, 300, 40, 40, c.WHITE, "Skip maze animation", 20)
+        self.backtrack_box_text = TextBox(420, 375, 40, 40, c.WHITE, "Turn off backtrack highlighting", 20)
+        self.path_gen_box_text = TextBox(380, 450, 40, 40, c.WHITE, "Skip path generation", 20)
+        self.time_delay_box_title = TextBox(380, 525, 40, 40, c.WHITE, "Slow-Mo generation", 20)
+        self.title = TextBox(380, 200, 400, 70, c.BLACK, "Maze Generator", 40)
+        self.slider_title = TextBox(750, 430, 40, 40, c.WHITE, f"Cell Size: {App.SIZE}", 20)
+
+    def draw_all(self):
+        exclude = [self.analyze_title, self.analyze_button]
+        for objects in self.__dict__.values():
+            if objects not in exclude:
+                objects.draw()
