@@ -23,11 +23,9 @@ class Game:
             maze.draw_maze()
 
             if not self.generated:
-                self.controls.draw_all()
+                self.controls.draw_menu()
             else:
-
-                self.controls.analyze_button.draw()
-                self.controls.analyze_title.draw()
+                self.controls.draw_analyze_menu(
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

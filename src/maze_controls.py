@@ -104,6 +104,9 @@ class MazeControls:
         self.backdrop_b = GUIRect(190, 190, 820, 520, c.WHITE)
         self.backdrop_a = GUIRect(200, 200, 800, 500, c.BLACK)
 
+        self.analysis_backdrop_b = GUIRect(190, 190, 820, 520, c.BLACK)
+        self.analysis_backdrop_a = GUIRect(200, 200, 800, 500, c.WHITE)
+
         # Buttons
         self.gen_button = Button(480, 600, 200, 50, c.GREEN, c.RED)
         self.analyze_button = Button(1050, 25, 100, 50, c.LIGHT_BLACK, c.GREY)
@@ -125,8 +128,19 @@ class MazeControls:
         self.title = TextBox(380, 200, 400, 70, c.BLACK, "Maze Generator", 40)
         self.slider_title = TextBox(750, 430, 40, 40, c.WHITE, f"Cell Size: {App.SIZE}", 20)
 
-    def draw_all(self):
-        exclude = [self.analyze_title, self.analyze_button]
-        for objects in self.__dict__.values():
-            if objects not in exclude:
-                objects.draw()
+        self.menu = [
+            self.backdrop_b, self.backdrop_a, self.gen_button, self.maze_gen_box, self.backtrack_box, self.path_gen_box,
+            self.time_delay_box, self.slider, self.gen_title, self.maze_gen_box_text, self.backtrack_box_text,
+            self.path_gen_box_text, self.time_delay_box_title, self.title, self.slider_title
+        ]
+        self.analyze_menu = [
+            self.analyze_button, self.analyze_title, self.analysis_backdrop_a, self.analysis_backdrop_b
+        ]
+
+    def draw_menu(self):
+        for objects in self.menu:
+            objects.draw()
+
+    def draw_analyze_menu(self):
+        for objects in self.analyze_menu:
+            objects.draw()
