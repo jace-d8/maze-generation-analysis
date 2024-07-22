@@ -25,7 +25,7 @@ class Game:
             if not self.generated:
                 self.controls.draw_menu()
             else:
-                self.controls.draw_analyze_menu(
+                self.controls.draw_analyze_menu()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:

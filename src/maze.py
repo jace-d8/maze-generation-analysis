@@ -4,11 +4,13 @@ from cell import Cell
 from app import App
 from src import constants as c
 import random
+from random_sample import my_rand_sample
 
 
 class Maze:
     def __init__(self):
         self.maze = [[Cell(i * App.SIZE, j * App.SIZE) for j in range(App.ROWS)] for i in range(App.COLS)]
+        # Initialize the maze by generating a cells x, y coords based on the current index * cell size
 
     def generate_maze(self, maze_gen_box, analysis):
         self.gen_maze_helper(random.randint(0, App.COLS - 1), random.randint(0, App.ROWS - 1), maze_gen_box, analysis)
@@ -42,7 +44,7 @@ class Maze:
             "left": ("left", "right")
         }
         # choose random direction, if the direction is invalid, remove it and try again
-        for (newX, newY), direction in random.sample(compass, len(compass)):
+        for (newX, newY), direction in my_rand_sample(compass, len(compass)):
             if 0 <= newX < App.COLS and 0 <= newY < App.ROWS and not self.maze[newX][newY].generated:
                 analysis.directional_variation(direction)
                 wall1, wall2 = wall_updates[direction]

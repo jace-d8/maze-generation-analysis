@@ -70,9 +70,13 @@ class Slider(GUIRect):
         if event.type == pygame.MOUSEBUTTONUP:
             self.drag = False
         if self.drag:
-            if 600 >= pygame.mouse.get_pos()[1] >= 250:
+            if self.rect.y in range(249, 601):
                 self.rect.y = pygame.mouse.get_pos()[1]
                 # Only update the sliders position if it is within the given Y bounds
+            if self.rect.y < 250:
+                self.rect.y = 250
+            if self.rect.y > 600:
+                self.rect.y = 600
 
         slider_value = {
             range(575, 600): 4,
@@ -87,7 +91,7 @@ class Slider(GUIRect):
             range(350, 375): 80,
             range(325, 350): 100,
             range(275, 300): 200,
-            range(250, 275): 400,
+            range(250, 275): 400,  # increased upper and lower bounds for smoother interaction
         }
         # A dictionary to correlate the y value of the slider and a given possible cell size
         for mouse_range, value in slider_value.items():
@@ -134,7 +138,7 @@ class MazeControls:
             self.path_gen_box_text, self.time_delay_box_title, self.title, self.slider_title
         ]
         self.analyze_menu = [
-            self.analyze_button, self.analyze_title, self.analysis_backdrop_a, self.analysis_backdrop_b
+            self.analyze_button, self.analyze_title
         ]
 
     def draw_menu(self):

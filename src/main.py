@@ -3,7 +3,7 @@ import pygame
 from src.game import Game
 from src.maze import Maze
 
-
+# potentially add feature where button auto checks at a certain size
 def main():
     pygame.init()
     sys.setrecursionlimit(99999)
