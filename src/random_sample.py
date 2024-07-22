@@ -1,4 +1,3 @@
-from math import ceil as _ceil, log as _log
 import secrets
 
 
@@ -57,11 +56,10 @@ def my_rand_sample(population, k):
     """
     removals for simplification: removed all error handling as my function is for one specific use case,
     removed setsize += 4 ** _ceil(_log(k * 3, 4)), as the range of the sum in from 6 to k and my k is 4 making the 
-    setsize 21 always (which was chosen for a balance of perfromance and memory optimization)
-    
+    setsize 21 always (which was chosen for a balance of perfromance and memory optimization.
     """
 
-    n = len(population)
+    n = k
     result = [None] * k
     setsize = 21  # size of a small set minus size of an empty list
     if n <= setsize:
@@ -69,17 +67,16 @@ def my_rand_sample(population, k):
         # Invariant:  non-selected at pool[0 : n-i]
         pool = list(population)
         for i in range(k):
-            j = secrets.randbelow(n - i)
-            result[i] = pool[j]
+            j = secrets.randbelow(n - i)  # for selecting a random element in the list
+            result[i] = pool[j]  # the result list gets the randomly selected element added
             pool[j] = pool[n - i - 1]  # move non-selected item into vacancy
     else:
-        selected = set()
-        selected_add = selected.add
-        for i in range(k):
-            j = secrets.randbelow(n)
+        selected = set()  # Init empty set
+        for i in range(k):  # k = size of set
+            j = secrets.randbelow(n)  # J = random number below n(which = k)
             while j in selected:
                 j = secrets.randbelow(n)
-            selected_add(j)
+            selected.add(j)
             result[i] = population[j]
     return result
 

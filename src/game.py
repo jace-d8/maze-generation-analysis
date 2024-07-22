@@ -24,8 +24,11 @@ class Game:
 
             if not self.generated:
                 self.controls.draw_menu()
-            else:
+            elif self.controls.analyze_button.is_checked:
                 self.controls.draw_analyze_menu()
+            else:
+                self.controls.analyze_button.draw()
+                self.controls.analyze_title.draw()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -34,6 +37,7 @@ class Game:
                     exit()
 
                 self.controls.slider.update(event)
+                self.controls.analyze_button.is_clicked(event)
                 maze.update_size(App.SIZE)
                 self.controls.slider_title.update(f"Cell Size: {App.SIZE}")
                 # to update the size the maze must reinitialized with the newly sized cells
@@ -60,7 +64,8 @@ class Game:
             maze.solve_maze(0, 0, App.COLS - 1, App.ROWS - 1, self.highlight_backtracking, self.watch_path)
             self.stage = 2
             self.generated = True
-        elif event.type == pygame.MOUSEBUTTONDOWN and self.stage == 2:
+        elif (event.type == pygame.MOUSEBUTTONDOWN and self.stage == 2
+              and not self.controls.analyze_button.rect.collidepoint(pygame.mouse.get_pos())):
             maze.reset_maze()
             x, y = (pos // App.SIZE for pos in pygame.mouse.get_pos())
             # pos is a tuple(x,y), pos is divided and floored

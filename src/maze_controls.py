@@ -138,7 +138,7 @@ class MazeControls:
             self.path_gen_box_text, self.time_delay_box_title, self.title, self.slider_title
         ]
         self.analyze_menu = [
-            self.analyze_button, self.analyze_title
+            self.analysis_backdrop_b, self.analysis_backdrop_a
         ]
 
     def draw_menu(self):
@@ -148,3 +148,4 @@ class MazeControls:
     def draw_analyze_menu(self):
         for objects in self.analyze_menu:
             objects.draw()
+
