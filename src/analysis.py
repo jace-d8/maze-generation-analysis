@@ -1,4 +1,5 @@
 from app import App
+import plotly.graph_objects as go
 import math
 
 
@@ -16,6 +17,7 @@ class Analysis:
         self.current_direction_count = {"up": 0, "down": 0, "left": 0, "right": 0}
         self.matrix = []
         self.probability_distribution = []
+        self.entropy = 0
         self.load()
 
     def load(self):
@@ -101,8 +103,7 @@ class Analysis:
 
     # Shannon's entropy details in readme
     def shannons_entropy(self):
-        entropy = -sum(p * math.log2(p) for p in self.probability_distribution if p > 0)
-        print(entropy)
+        self.entropy = -sum(p * math.log2(p) for p in self.probability_distribution if p > 0)
 
     def run(self, maze):
         self.update_data()

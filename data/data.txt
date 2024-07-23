@@ -1,10 +1,10 @@
 Total direction counter: count - percentage
-up: 467713 - 24.952%
-down: 468151 - 24.975%
-left: 469305 - 25.037%
-right: 469305 - 25.037%
+up: 714444 - 24.937%
+down: 715069 - 24.959%
+left: 717745 - 25.052%
+right: 717736 - 25.052%
 Current direction counter: count - percentage
-up: 0 - 0.000%
-down: 1 - 20.000%
-left: 2 - 40.000%
-right: 2 - 40.000%
+up: 14982 - 24.970%
+down: 14950 - 24.917%
+left: 14994 - 24.990%
+right: 15073 - 25.122%

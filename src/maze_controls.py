@@ -37,12 +37,13 @@ class Button(GUIRect):
 
 class TextBox(GUIRect):
     def __init__(self, x, y, w, h, color, text, font_size):
-        super().__init__(x, y, w, h, color)
+        super().__init__(x, y, w, h, c.WHITE)
         self.text = str(text)
+        self.color = color
         self.font = pygame.font.SysFont('Arial', font_size)
 
     def draw(self):
-        text_surf = self.font.render(self.text, True, c.WHITE)
+        text_surf = self.font.render(self.text, True, self.color)
         text_rect = text_surf.get_rect(center=self.rect.center)
         App.SCREEN.blit(text_surf, text_rect)
 
@@ -131,6 +132,8 @@ class MazeControls:
         self.time_delay_box_title = TextBox(380, 525, 40, 40, c.WHITE, "Slow-Mo generation", 20)
         self.title = TextBox(380, 200, 400, 70, c.BLACK, "Maze Generator", 40)
         self.slider_title = TextBox(750, 430, 40, 40, c.WHITE, f"Cell Size: {App.SIZE}", 20)
+        self.entropy = TextBox(280, 220, 200, 50, c.BLACK, f"Shannon's Entropy: {0}", 30)
+        self.prob_distribution = TextBox(280, 240, 200, 50, c.BLACK, f"{0}", 10)
 
         self.menu = [
             self.backdrop_b, self.backdrop_a, self.gen_button, self.maze_gen_box, self.backtrack_box, self.path_gen_box,
@@ -138,7 +141,7 @@ class MazeControls:
             self.path_gen_box_text, self.time_delay_box_title, self.title, self.slider_title
         ]
         self.analyze_menu = [
-            self.analysis_backdrop_b, self.analysis_backdrop_a
+            self.analysis_backdrop_b, self.analysis_backdrop_a, self.entropy
         ]
 
     def draw_menu(self):
