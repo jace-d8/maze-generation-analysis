@@ -9,4 +9,4 @@ def my_rand_sample(population, k):
         result[i] = pool[j]  # i'th index of result = compass[random]
         pool[j] = pool[k - i - 1]  # compass[random] = compass[length - index - 1] - s
     return result
-# Fisher Yates shuffle
+# Fisher Yates shuffless

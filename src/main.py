@@ -1,4 +1,4 @@
-import sys
+import sys  
 import pygame
 from src.game import Game
 from src.maze import Maze

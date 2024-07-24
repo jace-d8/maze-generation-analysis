@@ -151,4 +151,3 @@ class MazeControls:
     def draw_analyze_menu(self):
         for objects in self.analyze_menu:
             objects.draw()
-
