@@ -4,7 +4,7 @@ from cell import Cell
 from app import App
 from src import constants as c
 import random
-from random_sample import my_rand_sample
+from random_sample import fisher_yates
 
 
 class Maze:
@@ -44,7 +44,7 @@ class Maze:
             "left": ("left", "right")
         }
         # choose random direction, if the direction is invalid, remove it and try again
-        for (newX, newY), direction in my_rand_sample(compass, len(compass)):
+        for (newX, newY), direction in fisher_yates(compass, len(compass)):
             if 0 <= newX < App.COLS and 0 <= newY < App.ROWS and not self.maze[newX][newY].generated:
                 analysis.directional_variation(direction)
                 wall1, wall2 = wall_updates[direction]

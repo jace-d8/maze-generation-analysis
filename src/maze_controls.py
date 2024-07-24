@@ -5,24 +5,25 @@ from app import App
 
 # GET RID OF W AND H ON TEXT
 class GUIRect:
-    def __init__(self, x, y, w, h, color):
+    def __init__(self, x, y, w, h, color, border_radius=10):
         self.rect = pygame.Rect(x, y, w, h)
         self.color = color
+        self.border_radius = border_radius
 
     def draw(self):
-        pygame.draw.rect(App.SCREEN, self.color, self.rect, border_radius=10)
+        pygame.draw.rect(App.SCREEN, self.color, self.rect, border_radius=self.border_radius)
 
 
 class Button(GUIRect):
-    def __init__(self, x, y, w, h, color, hov_color):
-        super().__init__(x, y, w, h, color)
+    def __init__(self, x, y, w, h, color, hov_color, border_radius=8):
+        super().__init__(x, y, w, h, color, border_radius)
         self.hover_color = hov_color
         self.clicked_color = c.GREEN
         self.is_checked = False
 
     def draw(self):
         if self.rect.collidepoint(pygame.mouse.get_pos()):
-            pygame.draw.rect(App.SCREEN, self.hover_color, self.rect, border_radius=10)
+            pygame.draw.rect(App.SCREEN, self.hover_color, self.rect, border_radius=self.border_radius)
         else:
             super().draw()
 
@@ -106,34 +107,36 @@ class Slider(GUIRect):
 class MazeControls:
     def __init__(self):
         # Backdrops
-        self.backdrop_b = GUIRect(190, 190, 820, 520, c.WHITE)
-        self.backdrop_a = GUIRect(200, 200, 800, 500, c.BLACK)
+        self.backdrop_b = GUIRect(190, 190, 820, 520, c.WHITE, 5)
+        self.backdrop_a = GUIRect(200, 200, 800, 500, c.BLACK, 5)
 
         self.analysis_backdrop_b = GUIRect(190, 190, 820, 520, c.BLACK)
         self.analysis_backdrop_a = GUIRect(200, 200, 800, 500, c.WHITE)
 
         # Buttons
-        self.gen_button = Button(480, 600, 200, 50, c.GREEN, c.RED)
+        self.gen_button = Button(480, 600, 200, 50, c.GREEN, c.RED, 4)
         self.analyze_button = Button(1050, 25, 100, 50, c.LIGHT_BLACK, c.GREY)
         self.maze_gen_box = Button(260, 300, 40, 40, c.WHITE, c.LIGHT_GREEN)
         self.backtrack_box = Button(260, 375, 40, 40, c.WHITE, c.LIGHT_GREEN)
         self.path_gen_box = Button(260, 450, 40, 40, c.WHITE, c.LIGHT_GREEN)
         self.time_delay_box = Button(260, 525, 40, 40, c.WHITE, c.LIGHT_GREEN)
+        self.exit_analysis = Button(975, 205, 20, 20, c.RED, c.RED, 2)
 
         # slider
         self.slider = Slider(860, 250, 40, 400, 50, 50, c.WHITE, c.GREY)
 
-        # Textboxes
-        self.gen_title = TextBox(480, 600, 200, 50, c.WHITE, "Generate", 40)
-        self.analyze_title = TextBox(1000, 25, 200, 50, c.WHITE, "Analyze", 20)
+        # Textboxes (*button) indicates the buttons coords being unpacked and used for text
+        self.gen_title = TextBox(*self.gen_button.rect, c.WHITE, "Generate", 40)
+        self.analyze_title = TextBox(*self.analyze_button.rect, c.WHITE, "Analyze", 20)
         self.maze_gen_box_text = TextBox(380, 300, 40, 40, c.WHITE, "Skip maze animation", 20)
         self.backtrack_box_text = TextBox(420, 375, 40, 40, c.WHITE, "Turn off backtrack highlighting", 20)
         self.path_gen_box_text = TextBox(380, 450, 40, 40, c.WHITE, "Skip path generation", 20)
         self.time_delay_box_title = TextBox(380, 525, 40, 40, c.WHITE, "Slow-Mo generation", 20)
-        self.title = TextBox(380, 200, 400, 70, c.BLACK, "Maze Generator", 40)
+        self.title = TextBox(380, 200, 400, 70, c.WHITE, "Maze Generator", 40)
         self.slider_title = TextBox(750, 430, 40, 40, c.WHITE, f"Cell Size: {App.SIZE}", 20)
         self.entropy = TextBox(280, 220, 200, 50, c.BLACK, f"Shannon's Entropy: {0}", 30)
         self.prob_distribution = TextBox(280, 240, 200, 50, c.BLACK, f"{0}", 10)
+        self.exit_x = TextBox(*self.exit_analysis.rect, c.WHITE, "X", 15)
 
         self.menu = [
             self.backdrop_b, self.backdrop_a, self.gen_button, self.maze_gen_box, self.backtrack_box, self.path_gen_box,
@@ -141,7 +144,7 @@ class MazeControls:
             self.path_gen_box_text, self.time_delay_box_title, self.title, self.slider_title
         ]
         self.analyze_menu = [
-            self.analysis_backdrop_b, self.analysis_backdrop_a, self.entropy
+            self.analysis_backdrop_b, self.analysis_backdrop_a, self.entropy, self.exit_analysis, self.exit_x
         ]
 
     def draw_menu(self):

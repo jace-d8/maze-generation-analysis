@@ -101,7 +101,7 @@ class Analysis:
             self.probability_distribution.append(current_probability)
             # OPTIMIZE
 
-    # Shannon's entropy details in readme
+    # Shannon's entropy details in readme, 2^x = 14 (possible outcomes) where x = perfect entropy
     def shannons_entropy(self):
         self.entropy = -sum(p * math.log2(p) for p in self.probability_distribution if p > 0)
 

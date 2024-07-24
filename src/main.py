@@ -4,10 +4,8 @@ from src.game import Game
 from src.maze import Maze
 
 
-# potentially add feature where button auto checks at a certain size
-# need x button for analysis screen, need to make sure you can't click thru analysis screen
-# need to make sure analysis button can only be pressed once
-# shannons entropy as y, cell size as x?
+# GRAPH IDEA: entropy over time
+# tmr: do some more analysis GUI but other than that I'm fresh out of ideas
 def main():
     pygame.init()
     sys.setrecursionlimit(99999)
