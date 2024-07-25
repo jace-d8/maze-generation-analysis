@@ -2,6 +2,7 @@ import pygame
 from app import App
 from maze_controls import MazeControls
 from src.analysis import Analysis
+import matplotlib.pyplot as plt
 from src import constants as c
 from sys import exit
 
@@ -11,11 +12,19 @@ class Game:
         # Analyze
         self.analysis = Analysis()
         self.controls = MazeControls()
+
+        plt.figure(figsize=(6, 4))
+        plt.plot([1, 2, 3], [1, 2, 3])
+        plt.title('Sample Plot')
+        plt.savefig('plot.png', bbox_inches='tight', pad_inches=0.1)
+        plt.close()
+
         # Game state
         self.stage = 1
         self.coordinates_clicked = []
         self.generated = self.is_delay = self.run_analysis = self.exit_analysis = False
         self.highlight_backtracking = self.watch_generation = self.watch_path = True
+        self.img = pygame.image.load('plot.png')
 
     def run(self, maze):
 
@@ -26,7 +35,7 @@ class Game:
                 self.controls.draw_menu()
             elif self.run_analysis and not self.exit_analysis:
                 if self.stage == 2:
-                    self.analysis.run(maze)
+                    self.analysis.run(maze)  # could add a count and have iterations for the count
                     self.stage = 3
                 self.controls.entropy.update(f"Shannon's Entropy: {self.analysis.entropy:.3f}")
                 self.controls.prob_distribution.update(f"{self.analysis.probability_distribution}")
@@ -43,7 +52,7 @@ class Game:
                 self.handle_slider(event, maze)
                 self.execute_generation(event, maze, self.analysis)
                 self.handle_buttons(event)
-
+            App.SCREEN.blit(self.img, (0, 0))
             pygame.display.update()
 
     def handle_slider(self, event, maze):
