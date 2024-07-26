@@ -13,18 +13,11 @@ class Game:
         self.analysis = Analysis()
         self.controls = MazeControls()
 
-        plt.figure(figsize=(6, 4))
-        plt.plot([1, 2, 3], [1, 2, 3])
-        plt.title('Sample Plot')
-        plt.savefig('plot.png', bbox_inches='tight', pad_inches=0.1)
-        plt.close()
-
         # Game state
         self.stage = 1
         self.coordinates_clicked = []
         self.generated = self.is_delay = self.run_analysis = self.exit_analysis = False
         self.highlight_backtracking = self.watch_generation = self.watch_path = True
-        self.img = pygame.image.load('plot.png')
 
     def run(self, maze):
 
@@ -39,7 +32,18 @@ class Game:
                     self.stage = 3
                 self.controls.entropy.update(f"Shannon's Entropy: {self.analysis.entropy:.3f}")
                 self.controls.prob_distribution.update(f"{self.analysis.probability_distribution}")
+
+                # TMP
+                plt.figure(figsize=(4, 2))
+                plt.plot([1, 2, (App.COLS * App.ROWS)], [1, 2, 3])  # x[0 to max entropy] y[0 to cell count]
+                # print(maze.size)
+                plt.title('Sample Plot')
+                plt.savefig('plot.png', bbox_inches='tight', pad_inches=0.1)
+                plt.close()
+                img = pygame.image.load('plot.png')
                 self.controls.draw_analyze_menu()
+                App.SCREEN.blit(img, (220, 470))
+
             elif not self.exit_analysis:
                 self.controls.analyze_button.draw()
                 self.controls.analyze_title.draw()
@@ -50,9 +54,10 @@ class Game:
                     exit()
 
                 self.handle_slider(event, maze)
+                print(App.COLS * App.ROWS)
                 self.execute_generation(event, maze, self.analysis)
                 self.handle_buttons(event)
-            App.SCREEN.blit(self.img, (0, 0))
+
             pygame.display.update()
 
     def handle_slider(self, event, maze):
@@ -86,7 +91,7 @@ class Game:
             self.generated = True
         elif event.type == pygame.MOUSEBUTTONDOWN and self.stage != 1:
             # if the buttons are drawn, don't allow for them to be clicked through
-            if self.generated and not self.exit_analysis:
+            if self.run_analysis and not self.exit_analysis: # need another condition for analysis button
                 if (not self.controls.analyze_button.rect.collidepoint(pygame.mouse.get_pos()) and
                         not any(item.rect.collidepoint(pygame.mouse.get_pos()) for item in self.controls.analyze_menu)):
                     self.handle_clicks(maze)
