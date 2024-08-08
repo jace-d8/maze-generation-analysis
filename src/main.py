@@ -2,6 +2,7 @@ import sys
 import pygame
 from src.game import Game
 from src.maze import Maze
+from src.test_entropy import run
 
 
 # GRAPH IDEA: entropy over time
@@ -12,6 +13,7 @@ from src.maze import Maze
 # log 2 (x) x being the num of valid probabilities in the distribution
 # could use some graph for direction generation
 def main():
+    run()
     pygame.init()
     sys.setrecursionlimit(99999)
     pygame.display.set_caption("Maze Generator")
