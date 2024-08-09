@@ -2,11 +2,10 @@ import sys
 import pygame
 from src.game import Game
 from src.maze import Maze
-from src.test_entropy import run
+from tests.test_entropy import run
 
 
 # GRAPH IDEA: entropy over time
-# tmr: today's plans
 # make a plotly graph, x cells generated, y being current entropy
 # to do so I'm going to have to make a total cells generated count
 # I could maybe do a second line of the graph representing perfect entropy which would just be

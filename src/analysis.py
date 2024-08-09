@@ -38,8 +38,6 @@ class Analysis:
             self.total_direction_count[direction] += 1
             self.current_direction_count[direction] += 1
             self.current_count += 1
-        else:
-            print("Error")
 
     def update_data(self):
         self.total_count = sum(self.total_direction_count.values())

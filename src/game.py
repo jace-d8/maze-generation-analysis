@@ -20,33 +20,9 @@ class Game:
         self.highlight_backtracking = self.watch_generation = self.watch_path = True
 
     def run(self, maze):
-
         while True:
             maze.draw_maze()
-
-            if not self.generated:
-                self.controls.draw_menu()
-            elif self.run_analysis and not self.exit_analysis:
-                if self.stage == 2:
-                    self.analysis.run(maze)  # could add a count and have iterations for the count
-                    self.stage = 3
-                self.controls.entropy.update(f"Shannon's Entropy: {self.analysis.entropy:.3f}")
-                self.controls.prob_distribution.update(f"{self.analysis.probability_distribution}")
-
-                # TMP
-                plt.figure(figsize=(4, 2))
-                plt.plot([1, 2, (App.COLS * App.ROWS)], [1, 2, 3])  # x[0 to max entropy] y[0 to cell count]
-                # print(maze.size)
-                plt.title('Sample Plot')
-                plt.savefig('plot.png', bbox_inches='tight', pad_inches=0.1)
-                plt.close()
-                img = pygame.image.load('plot.png')
-                self.controls.draw_analyze_menu()
-                App.SCREEN.blit(img, (220, 470))
-
-            elif not self.exit_analysis:
-                self.controls.analyze_button.draw()
-                self.controls.analyze_title.draw()
+            self.manage_gui(maze)  # Deal with analyze button clicking !!!
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -91,7 +67,7 @@ class Game:
             self.generated = True
         elif event.type == pygame.MOUSEBUTTONDOWN and self.stage != 1:
             # if the buttons are drawn, don't allow for them to be clicked through
-            if self.run_analysis and not self.exit_analysis: # need another condition for analysis button
+            if self.run_analysis and not self.exit_analysis:  # need another condition for analysis button
                 if (not self.controls.analyze_button.rect.collidepoint(pygame.mouse.get_pos()) and
                         not any(item.rect.collidepoint(pygame.mouse.get_pos()) for item in self.controls.analyze_menu)):
                     self.handle_clicks(maze)
@@ -108,3 +84,38 @@ class Game:
             maze.solve_maze(*self.coordinates_clicked[0], *self.coordinates_clicked[1],
                             self.highlight_backtracking, self.watch_path)
             self.coordinates_clicked.clear()
+
+    def manage_graphs(self):
+        plt.figure(figsize=(4, 2))
+        # plt.plot([1, 2, 4], [1, 2, 3])  # x[0 to max entropy] y[0 to cell count]
+        values = list(self.analysis.total_direction_count.values())
+        key = list(self.analysis.total_direction_count.keys())
+        bars = plt.bar(key, values, color='red', edgecolor='black', linewidth=1.2, width=0.6)
+        plt.grid(axis='y', linestyle='--', alpha=0.7)
+        # Labels and title
+        plt.xlabel('Directions', fontsize=12)
+        plt.ylabel('Count', fontsize=12)
+        plt.title('Total Direction Count', fontsize=14)
+        # Adjust y-axis limits to better show differences
+        plt.ylim(0, max(values) * 1.2)
+        plt.savefig('plot.png', bbox_inches='tight', pad_inches=0.1)
+        plt.close()
+        return pygame.image.load('../src/plot.png')
+
+    def manage_gui(self, maze):
+        # TMP
+        if not self.generated:
+            self.controls.draw_menu()
+        elif self.run_analysis and not self.exit_analysis:
+            if self.stage == 2:
+                self.analysis.run(maze)  # could add a count and have iterations for the count
+                self.stage = 3
+            self.controls.entropy.update(f"Shannon's Entropy: {self.analysis.entropy:.3f}")
+            self.controls.prob_distribution.update(f"{self.analysis.probability_distribution}")
+            # TMP
+            self.controls.draw_analyze_menu()
+            img = self.manage_graphs()
+            App.SCREEN.blit(img, (220, 400))  # Blit to specific coords
+        elif not self.exit_analysis:
+            self.controls.analyze_button.draw()
+            self.controls.analyze_title.draw()
