@@ -17,7 +17,3 @@ def fisher_yates(population, k):
 An issue that can be found within shuffling algorithms is when a sample space gets too large. A sets permutations can be 
 represented by S!. The number of bits required for a shuffle of large magnitudes(ex: 52!) is log2(52!)
 """
-
-
-def _random_sample(population, k):
-    print(" ")

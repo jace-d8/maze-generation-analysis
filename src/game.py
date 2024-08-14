@@ -30,7 +30,6 @@ class Game:
                     exit()
 
                 self.handle_slider(event, maze)
-                print(App.COLS * App.ROWS)
                 self.execute_generation(event, maze, self.analysis)
                 self.handle_buttons(event)
 
@@ -65,11 +64,10 @@ class Game:
             maze.solve_maze(0, 0, App.COLS - 1, App.ROWS - 1, self.highlight_backtracking, self.watch_path)
             self.stage = 2
             self.generated = True
-        elif event.type == pygame.MOUSEBUTTONDOWN and self.stage != 1:
-            # if the buttons are drawn, don't allow for them to be clicked through
+        elif (event.type == pygame.MOUSEBUTTONDOWN and self.stage != 1 and not
+                self.controls.analyze_button.rect.collidepoint(pygame.mouse.get_pos())):
             if self.run_analysis and not self.exit_analysis:  # need another condition for analysis button
-                if (not self.controls.analyze_button.rect.collidepoint(pygame.mouse.get_pos()) and
-                        not any(item.rect.collidepoint(pygame.mouse.get_pos()) for item in self.controls.analyze_menu)):
+                if not any(item.rect.collidepoint(pygame.mouse.get_pos()) for item in self.controls.analyze_menu):
                     self.handle_clicks(maze)
             else:
                 self.handle_clicks(maze)
