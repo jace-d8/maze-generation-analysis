@@ -17,7 +17,7 @@ class Maze:
         # Pass in a random starting point for the maze to begin generation
 
     def gen_maze_helper(self, x, y, maze_gen_box, analysis):
-        # check validity of current cell - if invalid return false
+        # Check validity of current cell - if invalid return false
         if x + 1 > App.COLS or y + 1 > App.ROWS or x < 0 or y < 0 or self.maze[x][y].generated:
             return
         else:  # else this cell is valid can be updated to visited
@@ -27,7 +27,7 @@ class Maze:
                 self.draw_maze()
                 pygame.display.update()
 
-        compass = [  # contains direction coords and label
+        compass = [  # Contains direction coords and label
             ((x, y - 1), "up"),
             ((x, y + 1), "down"),
             ((x + 1, y), "right"),
@@ -43,7 +43,7 @@ class Maze:
             "down": ("bottom", "top"),
             "left": ("left", "right")
         }
-        # choose random direction, if the direction is invalid, remove it and try again
+        # Choose random direction, if the direction is invalid, remove it and try again
         for (newX, newY), direction in fisher_yates(compass, len(compass)):
             if 0 <= newX < App.COLS and 0 <= newY < App.ROWS and not self.maze[newX][newY].generated:
                 analysis.directional_variation(direction)
@@ -51,13 +51,13 @@ class Maze:
                 self.maze[x][y].walls[wall1] = False
                 self.maze[newX][newY].walls[wall2] = False
             self.gen_maze_helper(newX, newY, maze_gen_box, analysis)  # recursive step. If backtracking will occur if-
-            # there are more directions available in the loop
+            # There are more directions available in the loop
 
     def draw_maze(self):
         for i in range(App.COLS):
             for j in range(App.ROWS):
                 self.maze[i][j].draw()
-            pygame.time.delay(App.DELAY)
+            pygame.time.delay(App.DELAY)  # Optional delay for visual purposes
 
     def reset_maze(self):
         for i in range(App.COLS):
@@ -70,7 +70,7 @@ class Maze:
             for j in range(App.ROWS):
                 self.maze[i][j].update_size(new_size)
                 self.maze[i][j].update_pos(i * new_size, j * new_size)
-    # visits every cell in the maze to update its size according to the slider value
+    # Visits every cell in the maze to update its size according to the slider value
 
     def solve_maze(self, x, y, end_x, end_y, highlight_backtracking, watch_path):
         current_cell = self.maze[x][y]
@@ -86,11 +86,11 @@ class Maze:
             (current_cell.walls["right"], (x + 1, y)),
             (current_cell.walls["left"], (x - 1, y))
         ]
-        if y == end_y and x == end_x:  # the location of the last cell
-            return True  # return True if end location is reached
+        if y == end_y and x == end_x:  # The location of the last cell
+            return True  # Return True if end location is reached
         else:
-            # choose random direction, if the direction is invalid, remove it and try again
-            # backtracking will happen by default if there are more directions available
+            # Choose random direction, if the direction is invalid, remove it and try again
+            # Backtracking will happen by default if there are more directions available
             for wall, new_direction_coords in random.sample(compass, len(compass)):
                 new_x, new_y = new_direction_coords
                 if not wall and self.maze[new_x][new_y].color != c.RED:  # if wall is not present go that way

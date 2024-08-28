@@ -39,7 +39,7 @@ class Game:
         self.controls.slider.update(event)
         maze.update_size(App.SIZE)
         self.controls.slider_title.update(f"Cell Size: {App.SIZE}")
-        # to update the size the maze must reinitialized with the newly sized cells
+        # To update the size the maze must reinitialized with the newly sized cells
 
     def handle_buttons(self, event):
         if self.stage == 1:
@@ -76,15 +76,16 @@ class Game:
         maze.reset_maze()
         x, y = (pos // App.SIZE for pos in pygame.mouse.get_pos())
         # pos is a tuple(x,y), pos is divided and floored
-        maze.maze[x][y].color = c.LIGHT_RED
-        self.coordinates_clicked.append((x, y))
-        if len(self.coordinates_clicked) == 2:
+        maze.maze[x][y].color = c.LIGHT_RED  # Turn the box clicked red
+        self.coordinates_clicked.append((x, y))  # Save these coords to the list
+        if len(self.coordinates_clicked) == 2:  # When we have two coords, execute gen and reset list
             maze.solve_maze(*self.coordinates_clicked[0], *self.coordinates_clicked[1],
                             self.highlight_backtracking, self.watch_path)
             self.coordinates_clicked.clear()
 
     def manage_graphs(self):
         plt.figure(figsize=(4, 2))
+        # TMP
         # plt.plot([1, 2, 4], [1, 2, 3])  # x[0 to max entropy] y[0 to cell count]
         values = list(self.analysis.total_direction_count.values())
         key = list(self.analysis.total_direction_count.keys())

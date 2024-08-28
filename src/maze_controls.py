@@ -48,7 +48,7 @@ class TextBox(GUIRect):
         text_rect = text_surf.get_rect(center=self.rect.center)
         App.SCREEN.blit(text_surf, text_rect)
 
-    def update(self, text):
+    def update(self, text):  # Updates a text value to the screen
         self.text = str(text)
 
 
@@ -148,7 +148,7 @@ class MazeControls:
         ]
 
     def draw_menu(self):
-        for objects in self.menu:
+        for objects in self.menu:  # A list of drawables
             objects.draw()
 
     def draw_analyze_menu(self):
