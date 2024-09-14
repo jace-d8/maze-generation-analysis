@@ -7,7 +7,7 @@ import random
 from random_sample import fisher_yates
 
 
-class Maze:
+class Maze: # example 
     def __init__(self):
         self.maze = [[Cell(i * App.SIZE, j * App.SIZE) for j in range(App.ROWS)] for i in range(App.COLS)]
         # Initialize the maze by generating a cells x, y coords based on the current index * cell size
