@@ -11,7 +11,7 @@ class Game:
     def __init__(self):
         # Analyze
         self.analysis = Analysis()
-        self.controls = MazeControls()
+        self.controls = MazeControls() # example
 
         # Game state
         self.stage = 1
