@@ -54,7 +54,6 @@ class Analysis:
                 if self.current_count != 0:
                     percentage = count / self.current_count
                     data.write(f"{direction}: {count} - {percentage * 100:.3f}%\n")
-    # MAKE INTO PERCENTAGE HERE
 
     """
     Converts the maze into another 2d array where the cells are represented by a numerical value depending on their 
@@ -96,7 +95,6 @@ class Analysis:
                         count += 1
             current_probability = count / total_elements
             self.probability_distribution.append(current_probability)
-            # OPTIMIZE
 
     # Shannon's entropy details in readme, 2^x = 14 (possible outcomes) where x = perfect entropy
     def shannons_entropy(self):
